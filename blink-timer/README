@@ -1,0 +1,7 @@
+Basic 1ms interupt timer for 16mhz atmega8
+
+timer counts down the milliseconds from T1 until it reaches zero.
+The main loop checks for time1 == 0 then performs the task & resets the countdown.
+
+
+Adapted from this atmega328 example https://github.com/theapi/avr_timer0/blob/master/main.c

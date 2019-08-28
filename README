@@ -17,7 +17,9 @@ as well, an information could be provided inside of its source code files.
 
   blink       General "hello world" application for microcontrollers in particular for an avr controller.
   blink-int   The same application using avr timer with interruption
+  blink-timer Custom timer countdown check inside of main loop
   pcm-sound   Example of an avr timer usage to play sound using nothing but Mk.
+
 
 
 Notes
