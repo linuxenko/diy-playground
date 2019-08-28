@@ -11,4 +11,4 @@ Notes
 
 Makefiles were borrowed form the v-usb project, they have to be configured for an
 exact hardware you're intended to build it for (device type, oscillator frequency,
-fuses and maybe avrdude staff to make "make program" work properly").
+fuses and maybe avrdude's staff to make "make program" work properly").

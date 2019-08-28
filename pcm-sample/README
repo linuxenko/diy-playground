@@ -1,0 +1,5 @@
+This program plays sound from a header file. The header file is 
+converted version of a wav file into digital numbers. 
+The original post: https://avrpcm.blogspot.com/2010/11/playing-8-bit-pcm-using-any-avr.html
+
+In addition I'd like to say that it is quite interesting usage of avr timers that I want to keep this example here.
