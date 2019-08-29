@@ -19,6 +19,7 @@ as well, an information could be provided inside of its source code files.
   blink-int   The same application using avr timer with interruption
   blink-timer Custom timer countdown check inside of main loop
   pcm-sound   Example of an avr timer usage to play sound using nothing but Mk.
+  usb-pcm     Plays stream (actualy sound data) via usb
 
 
 

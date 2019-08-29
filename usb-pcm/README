@@ -1,0 +1,5 @@
+This application plays sound thrown via usb line. It is a bit dirty and almost has
+no useful comments, but it works well. There is a problem with vusb itself, it does
+not work well and stable on heavy data streams, will try to investigate the problem
+is it possible to fix it somehow. Currently it is enough to handle and correct the
+stream using host software, simple repeating missing messages.
