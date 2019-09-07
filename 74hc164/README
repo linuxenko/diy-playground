@@ -1,0 +1,1 @@
+A very basic "shiftOut" implementation for AVR with demo application that draws line using leds connected to the 74hc164.
