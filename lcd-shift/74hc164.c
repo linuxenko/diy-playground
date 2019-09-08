@@ -2,7 +2,7 @@
  * File Name     : 74hc164.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-07 20:05]
- * Last Modified : [2019-09-08 18:08]
+ * Last Modified : [2019-09-08 19:56]
  * Description   : 74hc164 for avr-gcc
  **********************************************************************************/
 
@@ -36,6 +36,14 @@ void _clock(ShiftIC *ic) {
   *ic->dataPort |= (1 << ic->clockPin);
    _delay_us(10);
   *ic->dataPort &= ~(1 << ic->clockPin);
+}
+
+void shiftLock(ShiftIC *ic) {
+  *ic->dataPort &= ~(1 << ic->enablePin);
+}
+
+void shiftUnlock(ShiftIC *ic) {
+  *ic->dataPort |= (1 << ic->enablePin);
 }
 
 void shiftOut(ShiftIC *ic, uint8_t val) {

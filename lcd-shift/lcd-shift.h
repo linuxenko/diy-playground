@@ -2,7 +2,7 @@
 * File Name     : lcd-shift.h
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-09-08 16:51]
-* Last Modified : [2019-09-08 16:54]
+* Last Modified : [2019-09-08 21:10]
 * Description   :  
 **********************************************************************************/
 
@@ -39,8 +39,31 @@
 #define LCD_5x8DOTS 0x00
 
 
+#include "74hc164.h"
+
 typedef struct _lcd_def {
+  ShiftIC *ic;
+
+  uint8_t rs;
+  uint8_t e;
+  uint8_t d0;
+  uint8_t d1;
+  uint8_t d2;
+  uint8_t d3;
+
+  uint8_t cols;
+  uint8_t rows;
+  uint8_t displayControl;
+  uint8_t displayMode;
+  uint8_t reg;
 
 } ShiftLCD;
 
+ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
+    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+    uint8_t cols, uint8_t rows, uint8_t charsize);
+
+void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row);
+void shiftLCDWrite(ShiftLCD *lcd, uint8_t value);
+void shiftLCDPuts(ShiftLCD *lcd, char *string);
 #endif
