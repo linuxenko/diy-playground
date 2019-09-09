@@ -2,7 +2,7 @@
 * File Name     : lcd-shift.h
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-09-08 16:51]
-* Last Modified : [2019-09-08 21:10]
+* Last Modified : [2019-09-09 13:13]
 * Description   :  
 **********************************************************************************/
 
@@ -64,6 +64,5 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
     uint8_t cols, uint8_t rows, uint8_t charsize);
 
 void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row);
-void shiftLCDWrite(ShiftLCD *lcd, uint8_t value);
 void shiftLCDPuts(ShiftLCD *lcd, char *string);
 #endif

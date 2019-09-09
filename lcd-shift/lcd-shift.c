@@ -2,7 +2,7 @@
  * File Name     : lcd-shift.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-08 18:28]
- * Last Modified : [2019-09-09 12:07]
+ * Last Modified : [2019-09-09 13:54]
  * Description   :  
  **********************************************************************************/
 
@@ -12,27 +12,28 @@
 #include "74hc164.h"
 #include "lcd-shift.h"
 
+void bitWrite(ShiftLCD *lcd, uint8_t bit, uint8_t bitValue);
 void write4bits(ShiftLCD *lcd, uint8_t value);
 void transfer();
 void pulseEnable(ShiftLCD *lcd);
 void command(ShiftLCD *lcd, uint8_t value);
 void send(ShiftLCD *lcd, uint8_t value, uint8_t mode);
 
-void bitWrite(uint8_t value, uint8_t bit, uint8_t bitValue) {
+void bitWrite(ShiftLCD *lcd, uint8_t bit, uint8_t bitValue) {
+  lcd->reg &= ~(1 << bit);
+
   if (bitValue != 0) {
-    value |= (1 << bit);
-  } else {
-    value &= ~(1 << bit);
+    lcd->reg |= (1 << bit);
   }
 }
 
 void clear(ShiftLCD *lcd) {
   command(lcd, LCD_CLEARDISPLAY);
-  _delay_ms(0.4);
+  _delay_us(500);
 }
 
 void send(ShiftLCD *lcd, uint8_t value, uint8_t mode) {
-  bitWrite(lcd->reg, lcd->rs, mode);
+  bitWrite(lcd, lcd->rs, mode);
   transfer(lcd);
   write4bits(lcd, value >> 4);
   write4bits(lcd, value);
@@ -43,35 +44,31 @@ void command(ShiftLCD *lcd, uint8_t value) {
 }
 
 void pulseEnable(ShiftLCD *lcd) {
-  bitWrite(lcd->reg, lcd->e, 0);
+  bitWrite(lcd, lcd->e, 0);
   transfer(lcd);
-  _delay_ms(1);
-  bitWrite(lcd->reg, lcd->e, 1);
+  _delay_us(10);
+  bitWrite(lcd, lcd->e, 1);
   transfer(lcd);
-  _delay_ms(1);
-  bitWrite(lcd->reg, lcd->e, 0);
+  _delay_us(10);
+  bitWrite(lcd, lcd->e, 0);
   transfer(lcd);
-  _delay_ms(1);
+  _delay_us(10);
 }
 
 void write4bits(ShiftLCD *lcd, uint8_t value) {
-  bitWrite(lcd->reg, lcd->d0, (value >> 0) & 1);
-  bitWrite(lcd->reg, lcd->d1, (value >> 1) & 1);
-  bitWrite(lcd->reg, lcd->d2, (value >> 2) & 1);
-  bitWrite(lcd->reg, lcd->d3, (value >> 3) & 1);
+  bitWrite(lcd, lcd->d0, (value >> 0) & 1);
+  bitWrite(lcd, lcd->d1, (value >> 1) & 1);
+  bitWrite(lcd, lcd->d2, (value >> 2) & 1);
+  bitWrite(lcd, lcd->d3, (value >> 3) & 1);
   transfer(lcd);
   pulseEnable(lcd);
-}
-
-void shiftLCDWrite(ShiftLCD *lcd, uint8_t value) {
-  send(lcd, value, 0);
 }
 
 void shiftLCDPuts(ShiftLCD *lcd, char *string) {
   char *it = string;
 
   for (; *it; it++) {
-    shiftLCDWrite(lcd, *it);
+    send(lcd, *it, 1);
   }
 }
 
@@ -93,6 +90,7 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
     uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
     uint8_t cols, uint8_t rows, uint8_t charsize) {
 
+  lcd->reg = 0;
   lcd->ic = ic;
   lcd->rs = rs;
   lcd->e = e;
@@ -103,8 +101,19 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
 
   lcd->cols = cols;
   lcd->rows = rows;
-  lcd->displayControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+
+  /*
+   * Some default settings. Anyways I like when cursor blinks,
+   * but those defaults, you know )
+   */
+
+  lcd->displayControl = LCD_DISPLAYON | LCD_CURSORON | LCD_BLINKON;
   lcd->displayMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+
+  /*
+   * The initialization process requires a lot of delays, sometimes people
+   * use rediculously huge values, but I don't see a reason.
+   * */
 
   _delay_ms(20);
   write4bits(lcd, 0x03);
@@ -129,6 +138,7 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
   _delay_ms(1);
   command(lcd, LCD_DISPLAYCONTROL | lcd->displayControl);
   _delay_ms(1);
+
   clear(lcd);
   _delay_ms(1);
   command(lcd, LCD_ENTRYMODESET | lcd->displayMode);
@@ -138,7 +148,14 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
 }
 
 void transfer(ShiftLCD *lcd) {
-/*  *lcd->ic->dataPort |= (1 << lcd->ic->enablePin);*/
+  /*
+   * The display I have, does not like any long time interruptions.
+   * I think it depends on the shift IC. A hc164 IC, for an instance,
+   * does not have a "latch" support that made me to make this trick
+   */
+  shiftOn(lcd->ic);
+  _delay_us(10);
   shiftOut(lcd->ic, lcd->reg);
-/*  *lcd->ic->dataPort &= ~(1 << lcd->ic->enablePin);*/
+  _delay_us(10);
+  shiftOff(lcd->ic);
 }
