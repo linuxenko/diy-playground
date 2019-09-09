@@ -1,10 +1,10 @@
 /*********************************************************************************
-* File Name     : lcd-shift.c
-* Created By    : Svetlana Linuxenko
-* Creation Date : [2019-09-08 18:28]
-* Last Modified : [2019-09-08 21:27]
-* Description   :  
-**********************************************************************************/
+ * File Name     : lcd-shift.c
+ * Created By    : Svetlana Linuxenko
+ * Creation Date : [2019-09-08 18:28]
+ * Last Modified : [2019-09-09 12:07]
+ * Description   :  
+ **********************************************************************************/
 
 #include <inttypes.h>
 #include <util/delay.h>
@@ -19,49 +19,48 @@ void command(ShiftLCD *lcd, uint8_t value);
 void send(ShiftLCD *lcd, uint8_t value, uint8_t mode);
 
 void bitWrite(uint8_t value, uint8_t bit, uint8_t bitValue) {
-  if (bitValue == 0) {
-    value &= ~(1 << bit);
-  } else {
+  if (bitValue != 0) {
     value |= (1 << bit);
+  } else {
+    value &= ~(1 << bit);
   }
 }
 
 void clear(ShiftLCD *lcd) {
-    command(lcd, LCD_CLEARDISPLAY);
-    _delay_ms(2);
+  command(lcd, LCD_CLEARDISPLAY);
+  _delay_ms(0.4);
 }
 
 void send(ShiftLCD *lcd, uint8_t value, uint8_t mode) {
-    bitWrite(lcd->reg, lcd->rs, mode);
-    transfer(lcd);
-    write4bits(lcd, value >> 4);
-    write4bits(lcd, value);
+  bitWrite(lcd->reg, lcd->rs, mode);
+  transfer(lcd);
+  write4bits(lcd, value >> 4);
+  write4bits(lcd, value);
 }
 
 void command(ShiftLCD *lcd, uint8_t value) {
   send(lcd, value, 0);
 }
 
-
 void pulseEnable(ShiftLCD *lcd) {
-    bitWrite(lcd->reg, lcd->e, 0);
-    transfer(lcd);
-    _delay_ms(0.1);
-    bitWrite(lcd->reg, lcd->e, 1);
-    transfer(lcd);
-    _delay_ms(0.1);
-    bitWrite(lcd->reg, lcd->e, 0);
-    transfer(lcd);
-    _delay_ms(0.5);
+  bitWrite(lcd->reg, lcd->e, 0);
+  transfer(lcd);
+  _delay_ms(1);
+  bitWrite(lcd->reg, lcd->e, 1);
+  transfer(lcd);
+  _delay_ms(1);
+  bitWrite(lcd->reg, lcd->e, 0);
+  transfer(lcd);
+  _delay_ms(1);
 }
 
 void write4bits(ShiftLCD *lcd, uint8_t value) {
-    bitWrite(lcd->reg, lcd->d0, (value >> 0) & 1);
-    bitWrite(lcd->reg, lcd->d1, (value >> 1) & 1);
-    bitWrite(lcd->reg, lcd->d2, (value >> 2) & 1);
-    bitWrite(lcd->reg, lcd->d3, (value >> 3) & 1);
-    transfer(lcd);
-    pulseEnable(lcd);
+  bitWrite(lcd->reg, lcd->d0, (value >> 0) & 1);
+  bitWrite(lcd->reg, lcd->d1, (value >> 1) & 1);
+  bitWrite(lcd->reg, lcd->d2, (value >> 2) & 1);
+  bitWrite(lcd->reg, lcd->d3, (value >> 3) & 1);
+  transfer(lcd);
+  pulseEnable(lcd);
 }
 
 void shiftLCDWrite(ShiftLCD *lcd, uint8_t value) {
@@ -77,17 +76,17 @@ void shiftLCDPuts(ShiftLCD *lcd, char *string) {
 }
 
 void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row) {
-    uint8_t row_offsets[] = {0x00,
-      0x40,
-      (uint8_t)(0x00 + lcd->cols),
-      (uint8_t)(0x40 + lcd->cols)
-    };
+  uint8_t row_offsets[] = {0x00,
+    0x40,
+    (uint8_t)(0x00 + lcd->cols),
+    (uint8_t)(0x40 + lcd->cols)
+  };
 
-    if (row > lcd->rows) {
-        row = lcd->rows - 1;
-    }
+  if (row > lcd->rows) {
+    row = lcd->rows - 1;
+  }
 
-    command(lcd, LCD_SETDDRAMADDR | (col + row_offsets[row]));
+  command(lcd, LCD_SETDDRAMADDR | (col + row_offsets[row]));
 }
 
 ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
@@ -104,17 +103,20 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
 
   lcd->cols = cols;
   lcd->rows = rows;
-  lcd->displayControl = LCD_DISPLAYON | LCD_CURSORON | LCD_BLINKON;
+  lcd->displayControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
   lcd->displayMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
 
-  _delay_ms(15);
+  _delay_ms(20);
   write4bits(lcd, 0x03);
-  _delay_ms(4.5);
+  _delay_ms(5);
   write4bits(lcd, 0x03);
-  _delay_ms(4.5);
+  _delay_us(110);
   write4bits(lcd, 0x03);
-  _delay_ms(4.5);
+  _delay_us(50);
+
   write4bits(lcd, 0x02);
+
+  _delay_us(50);
 
   if (rows > 1) {
     command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS);
@@ -124,16 +126,19 @@ ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
     command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS);
   }
 
+  _delay_ms(1);
   command(lcd, LCD_DISPLAYCONTROL | lcd->displayControl);
+  _delay_ms(1);
   clear(lcd);
+  _delay_ms(1);
   command(lcd, LCD_ENTRYMODESET | lcd->displayMode);
+  _delay_ms(1);
 
-  clear(lcd);
   return lcd;
 }
 
 void transfer(ShiftLCD *lcd) {
-  shiftLock(lcd->ic);
+/*  *lcd->ic->dataPort |= (1 << lcd->ic->enablePin);*/
   shiftOut(lcd->ic, lcd->reg);
-  shiftUnlock(lcd->ic);
+/*  *lcd->ic->dataPort &= ~(1 << lcd->ic->enablePin);*/
 }

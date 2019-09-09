@@ -2,13 +2,13 @@
  * File Name     : 74hc164.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-07 20:05]
- * Last Modified : [2019-09-08 22:02]
+ * Last Modified : [2019-09-09 12:12]
  * Description   : 74hc164 for avr-gcc
  **********************************************************************************/
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include <inttypes.h>
+#include <util/delay.h>
 
 #include "74hc164.h"
 
@@ -20,9 +20,7 @@ ShiftIC * createHC164(ShiftIC *ic, volatile uint8_t *dirPort, volatile uint8_t *
   ic->clockPin = clockPin;
   ic->enablePin = enablePin;
 
-  *dirPort |= (1 << ic->dataPin);
-  *dirPort |= (1 << ic->clockPin);
-  *dirPort |= (1 << ic->enablePin);
+  *dirPort |= (1 << ic->dataPin) | (1 << ic->clockPin) | (1 << ic->enablePin);
 
   *ic->dataPort &= ~(1 << ic->dataPin);
   *ic->dataPort &= ~(1 << ic->clockPin);
@@ -32,23 +30,34 @@ ShiftIC * createHC164(ShiftIC *ic, volatile uint8_t *dirPort, volatile uint8_t *
 }
 
 void _clock(ShiftIC *ic) {
-   _delay_us(5);
+  _delay_us(1);
   *ic->dataPort |= (1 << ic->clockPin);
-   _delay_us(5);
+  _delay_us(1);
   *ic->dataPort &= ~(1 << ic->clockPin);
+  _delay_us(1);
+}
+
+void shiftOff(ShiftIC *ic) {
+  *ic->dataPort &= ~(1 << ic->enablePin);
+}
+
+void shiftOn(ShiftIC *ic) {
+  *ic->dataPort |= (1 << ic->enablePin);
 }
 
 void shiftReset(ShiftIC *ic) {
-  *ic->dataPort &= ~(1 << ic->enablePin);
-  _delay_us(5);
-  *ic->dataPort |= (1 << ic->enablePin);
-  _delay_us(5);
+  shiftOff(ic);
+  shiftOn(ic);
 }
 
 void shiftOut(ShiftIC *ic, uint8_t val) {
-  uint8_t i;
+/* The original shiftOut from arduino's source code*/
+/*    if (bitOrder == LSBFIRST)*/
+/*      digitalWrite(dataPin, !!(val & (1 << i)));*/
+/*  else */
+/*      digitalWrite(dataPin, !!(val & (1 << (7 - i))));*/
 
-  shiftReset(ic);
+  uint8_t i;
 
   for (i = 0; i < 8; i++)  {
     if (!!(val & (1 << (7 - i)))) {
