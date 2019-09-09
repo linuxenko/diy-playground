@@ -2,15 +2,15 @@
  * File Name     : lcd-shift.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-08 18:28]
- * Last Modified : [2019-09-09 14:19]
+ * Last Modified : [2019-09-09 16:33]
  * Description   :  
  **********************************************************************************/
 
 #include <inttypes.h>
 #include <util/delay.h>
 
-#include "74hc164.h"
-#include "lcd-shift.h"
+#include "shiftout.h"
+#include "lcdshift.h"
 
 void bitWrite(ShiftLCD *lcd, uint8_t bit, uint8_t bitValue);
 void write4bits(ShiftLCD *lcd, uint8_t value);
@@ -86,11 +86,21 @@ void transfer(ShiftLCD *lcd) {
    * I think it depends on the shift IC. A hc164 IC, for an instance,
    * does not have a "latch" support that made me to make this trick
    */
-  shiftOn(lcd->ic);
-  _delay_us(10);
-  shiftOut(lcd->ic, lcd->cmd);
-  _delay_us(10);
-  shiftOff(lcd->ic);
+  if (lcd->ic->type == IC_TYPE_HC164) {
+    shiftOn(lcd->ic);
+    _delay_us(10);
+    shiftOut(lcd->ic, MBFIRST, lcd->cmd);
+    _delay_us(10);
+    shiftOff(lcd->ic);
+  }
+
+  if (lcd->ic->type == IC_TYPE_HC595) {
+    shiftOff(lcd->ic);
+    _delay_us(10);
+    shiftOut(lcd->ic, MBFIRST, lcd->cmd);
+    shiftOn(lcd->ic);
+    _delay_us(10);
+  }
 }
 
 void shiftLCDSend(ShiftLCD *lcd, uint8_t value, uint8_t mode) {

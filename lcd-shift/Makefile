@@ -13,7 +13,7 @@ FUSE_H  = 0xc9
 AVRDUDE = avrdude -c usbasp -p $(DEVICE) # edit this line for your programmer
 
 CFLAGS  = -I. -DDEBUG_LEVEL=0
-OBJECTS = main.o 74hc164.o lcd-shift.o
+OBJECTS = main.o shiftout.o lcdshift.o
 
 COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 

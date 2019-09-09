@@ -2,14 +2,14 @@
 * File Name     : lcd-shift.h
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-09-08 16:51]
-* Last Modified : [2019-09-09 14:20]
+* Last Modified : [2019-09-09 16:19]
 * Description   :  
 **********************************************************************************/
 
-#ifndef _LCD_SHIFT_H
-#define _LCD_SHIFT_H
+#ifndef _LCDSHIFT_H_
+#define _LCDSHIFT_H_
 
-#include "74hc164.h"
+#include "shiftout.h"
 
 /*
  * The display just an object
