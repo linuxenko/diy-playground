@@ -2,7 +2,7 @@
  * File Name     : lcd-shift.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-08 18:28]
- * Last Modified : [2019-09-09 13:54]
+ * Last Modified : [2019-09-09 14:19]
  * Description   :  
  **********************************************************************************/
 
@@ -19,49 +19,82 @@ void pulseEnable(ShiftLCD *lcd);
 void command(ShiftLCD *lcd, uint8_t value);
 void send(ShiftLCD *lcd, uint8_t value, uint8_t mode);
 
-void bitWrite(ShiftLCD *lcd, uint8_t bit, uint8_t bitValue) {
-  lcd->reg &= ~(1 << bit);
+ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
+    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+    uint8_t cols, uint8_t rows, uint8_t charsize) {
 
-  if (bitValue != 0) {
-    lcd->reg |= (1 << bit);
+  /*
+   * Some default settings. Anyways I like when cursor blinks,
+   * but those defaults, you know )
+   */
+
+  uint8_t displayControl = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+  uint8_t displayMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+
+  lcd->cmd = 0;
+  lcd->ic = ic;
+  lcd->rs = rs;
+  lcd->e = e;
+  lcd->d0 = d0;
+  lcd->d1 = d1;
+  lcd->d2 = d2;
+  lcd->d3 = d3;
+
+  lcd->cols = cols;
+  lcd->rows = rows;
+
+  /*
+   * The initialization process requires a lot of delays, sometimes people
+   * use rediculously huge values, but I don't see a reason... yet ).
+   * */
+
+  _delay_ms(20);
+  write4bits(lcd, 0x03);
+  _delay_ms(5);
+  write4bits(lcd, 0x03);
+  _delay_us(110);
+  write4bits(lcd, 0x03);
+  _delay_us(50);
+
+  write4bits(lcd, 0x02);
+
+  _delay_us(50);
+
+  if (rows > 1) {
+    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS);
+  } else if (rows == 1 && charsize != 0) {
+    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_1LINE | LCD_5x10DOTS);
+  } else {
+    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS);
   }
+
+  _delay_ms(1);
+  command(lcd, LCD_DISPLAYCONTROL | displayControl);
+  _delay_ms(1);
+
+  shiftLCDClear(lcd);
+  _delay_ms(1);
+  command(lcd, LCD_ENTRYMODESET | displayMode);
+  _delay_ms(1);
+
+  return lcd;
 }
 
-void clear(ShiftLCD *lcd) {
-  command(lcd, LCD_CLEARDISPLAY);
-  _delay_us(500);
-}
-
-void send(ShiftLCD *lcd, uint8_t value, uint8_t mode) {
-  bitWrite(lcd, lcd->rs, mode);
-  transfer(lcd);
-  write4bits(lcd, value >> 4);
-  write4bits(lcd, value);
-}
-
-void command(ShiftLCD *lcd, uint8_t value) {
-  send(lcd, value, 0);
-}
-
-void pulseEnable(ShiftLCD *lcd) {
-  bitWrite(lcd, lcd->e, 0);
-  transfer(lcd);
+void transfer(ShiftLCD *lcd) {
+  /*
+   * The display I have, does not like any long time interruptions.
+   * I think it depends on the shift IC. A hc164 IC, for an instance,
+   * does not have a "latch" support that made me to make this trick
+   */
+  shiftOn(lcd->ic);
   _delay_us(10);
-  bitWrite(lcd, lcd->e, 1);
-  transfer(lcd);
+  shiftOut(lcd->ic, lcd->cmd);
   _delay_us(10);
-  bitWrite(lcd, lcd->e, 0);
-  transfer(lcd);
-  _delay_us(10);
+  shiftOff(lcd->ic);
 }
 
-void write4bits(ShiftLCD *lcd, uint8_t value) {
-  bitWrite(lcd, lcd->d0, (value >> 0) & 1);
-  bitWrite(lcd, lcd->d1, (value >> 1) & 1);
-  bitWrite(lcd, lcd->d2, (value >> 2) & 1);
-  bitWrite(lcd, lcd->d3, (value >> 3) & 1);
-  transfer(lcd);
-  pulseEnable(lcd);
+void shiftLCDSend(ShiftLCD *lcd, uint8_t value, uint8_t mode) {
+  send(lcd, value, mode);
 }
 
 void shiftLCDPuts(ShiftLCD *lcd, char *string) {
@@ -86,76 +119,48 @@ void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row) {
   command(lcd, LCD_SETDDRAMADDR | (col + row_offsets[row]));
 }
 
-ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
-    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-    uint8_t cols, uint8_t rows, uint8_t charsize) {
 
-  lcd->reg = 0;
-  lcd->ic = ic;
-  lcd->rs = rs;
-  lcd->e = e;
-  lcd->d0 = d0;
-  lcd->d1 = d1;
-  lcd->d2 = d2;
-  lcd->d3 = d3;
+void bitWrite(ShiftLCD *lcd, uint8_t bit, uint8_t bitValue) {
+  lcd->cmd &= ~(1 << bit);
 
-  lcd->cols = cols;
-  lcd->rows = rows;
-
-  /*
-   * Some default settings. Anyways I like when cursor blinks,
-   * but those defaults, you know )
-   */
-
-  lcd->displayControl = LCD_DISPLAYON | LCD_CURSORON | LCD_BLINKON;
-  lcd->displayMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
-
-  /*
-   * The initialization process requires a lot of delays, sometimes people
-   * use rediculously huge values, but I don't see a reason.
-   * */
-
-  _delay_ms(20);
-  write4bits(lcd, 0x03);
-  _delay_ms(5);
-  write4bits(lcd, 0x03);
-  _delay_us(110);
-  write4bits(lcd, 0x03);
-  _delay_us(50);
-
-  write4bits(lcd, 0x02);
-
-  _delay_us(50);
-
-  if (rows > 1) {
-    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_2LINE | LCD_5x8DOTS);
-  } else if (rows == 1 && charsize != 0) {
-    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_1LINE | LCD_5x10DOTS);
-  } else {
-    command(lcd, LCD_FUNCTIONSET | LCD_4BITMODE | LCD_1LINE | LCD_5x8DOTS);
+  if (bitValue != 0) {
+    lcd->cmd |= (1 << bit);
   }
-
-  _delay_ms(1);
-  command(lcd, LCD_DISPLAYCONTROL | lcd->displayControl);
-  _delay_ms(1);
-
-  clear(lcd);
-  _delay_ms(1);
-  command(lcd, LCD_ENTRYMODESET | lcd->displayMode);
-  _delay_ms(1);
-
-  return lcd;
 }
 
-void transfer(ShiftLCD *lcd) {
-  /*
-   * The display I have, does not like any long time interruptions.
-   * I think it depends on the shift IC. A hc164 IC, for an instance,
-   * does not have a "latch" support that made me to make this trick
-   */
-  shiftOn(lcd->ic);
+void shiftLCDClear(ShiftLCD *lcd) {
+  command(lcd, LCD_CLEARDISPLAY);
+  _delay_us(500);
+}
+
+void command(ShiftLCD *lcd, uint8_t value) {
+  send(lcd, value, 0);
+}
+
+void send(ShiftLCD *lcd, uint8_t value, uint8_t mode) {
+  bitWrite(lcd, lcd->rs, mode);
+  transfer(lcd);
+  write4bits(lcd, value >> 4);
+  write4bits(lcd, value);
+}
+
+void pulseEnable(ShiftLCD *lcd) {
+  bitWrite(lcd, lcd->e, 0);
+  transfer(lcd);
   _delay_us(10);
-  shiftOut(lcd->ic, lcd->reg);
+  bitWrite(lcd, lcd->e, 1);
+  transfer(lcd);
   _delay_us(10);
-  shiftOff(lcd->ic);
+  bitWrite(lcd, lcd->e, 0);
+  transfer(lcd);
+  _delay_us(10);
+}
+
+void write4bits(ShiftLCD *lcd, uint8_t value) {
+  bitWrite(lcd, lcd->d0, (value >> 0) & 1);
+  bitWrite(lcd, lcd->d1, (value >> 1) & 1);
+  bitWrite(lcd, lcd->d2, (value >> 2) & 1);
+  bitWrite(lcd, lcd->d3, (value >> 3) & 1);
+  transfer(lcd);
+  pulseEnable(lcd);
 }

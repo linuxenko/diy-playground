@@ -2,13 +2,71 @@
 * File Name     : lcd-shift.h
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-09-08 16:51]
-* Last Modified : [2019-09-09 13:13]
+* Last Modified : [2019-09-09 14:20]
 * Description   :  
 **********************************************************************************/
 
 #ifndef _LCD_SHIFT_H
 #define _LCD_SHIFT_H
 
+#include "74hc164.h"
+
+/*
+ * The display just an object
+ */
+typedef struct _lcd_def {
+
+  /*
+   * Preconfigured "shift" IC as a display driver.
+   * Could be any supported type.
+   */
+  ShiftIC *ic;
+
+  /*
+   * Which pin of the "shift" IC coresponds for the display
+   * specific lcd pin.
+   */
+  uint8_t rs;
+  uint8_t e;
+  uint8_t d0;
+  uint8_t d1;
+  uint8_t d2;
+  uint8_t d3;
+
+  uint8_t cols;
+  uint8_t rows;
+
+  /*
+   * Just a command buffer for internal usage.
+   */
+  uint8_t cmd;
+
+} ShiftLCD;
+
+/*
+ * A try to configure everything inside of a single function.
+ * This function fills a provided ShiftLCD object and applies
+ * predefined settings.
+ */
+ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
+    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
+    uint8_t cols, uint8_t rows, uint8_t charsize);
+
+/*
+ * Standard interface to LCD.
+ */
+void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row);
+void shiftLCDPuts(ShiftLCD *lcd, char *string);
+void shiftLCDClear(ShiftLCD *lcd);
+
+/*
+ * Low level interface for either configuration or another lcd specific stuff.
+ */
+void shiftLCDSend(ShiftLCD *lcd, uint8_t value, uint8_t mode);
+
+/*
+ * Our precious (:
+ */
 #define LCD_CLEARDISPLAY 0x01
 #define LCD_RETURNHOME 0x02
 #define LCD_ENTRYMODESET 0x04
@@ -38,31 +96,4 @@
 #define LCD_5x10DOTS 0x04
 #define LCD_5x8DOTS 0x00
 
-
-#include "74hc164.h"
-
-typedef struct _lcd_def {
-  ShiftIC *ic;
-
-  uint8_t rs;
-  uint8_t e;
-  uint8_t d0;
-  uint8_t d1;
-  uint8_t d2;
-  uint8_t d3;
-
-  uint8_t cols;
-  uint8_t rows;
-  uint8_t displayControl;
-  uint8_t displayMode;
-  uint8_t reg;
-
-} ShiftLCD;
-
-ShiftLCD * createShiftLCD(ShiftLCD *lcd, ShiftIC *ic, uint8_t rs, uint8_t e,
-    uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3,
-    uint8_t cols, uint8_t rows, uint8_t charsize);
-
-void shiftLCDSetCursor(ShiftLCD *lcd, uint8_t col, uint8_t row);
-void shiftLCDPuts(ShiftLCD *lcd, char *string);
 #endif
