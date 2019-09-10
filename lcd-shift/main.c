@@ -2,7 +2,7 @@
  * File Name     : main.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-07 19:56]
- * Last Modified : [2019-09-09 16:56]
+ * Last Modified : [2019-09-09 22:52]
  * Description   :
  **********************************************************************************/
 
@@ -24,13 +24,13 @@ int main(void) {
 
 /*  createShiftLCD(&lcd, &icS, 4, 5, 0, 1, 2, 3, 16, 2, 0);*/
   createShiftLCD(&lcd, &icS, 1, 3, 4, 5, 6, 7, 16, 2, 0);
-  shiftLCDPuts(&lcd, "hello");
+  shiftLCDPuts(&lcd, "hello world");
 
-  while(1) {
-    shiftLCDSetCursor(&lcd, 0,0);
-    shiftLCDPuts(&lcd, "hello");
-    _delay_ms(1000);
-  }
+/*  while(1) {*/
+/*    shiftLCDSetCursor(&lcd, 0,0);*/
+/*    shiftLCDPuts(&lcd, "hello");*/
+/*    _delay_ms(1000);*/
+/*  }*/
 
   return 0;
 }
