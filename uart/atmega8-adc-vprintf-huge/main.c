@@ -2,7 +2,7 @@
  * File Name     : main.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-20 23:23]
- * Last Modified : [2019-09-21 11:43]
+ * Last Modified : [2019-09-21 11:27]
  * Description   :  
  **********************************************************************************/
 
@@ -40,18 +40,9 @@ uint16_t ReadADC(uint8_t ch) {
    return(ADC);
 }
 
-void formatFloatString (char *s, float val) {
-  static int t0,t0d;
-
-  t0 = (int) (val);
-  t0d = (int) ((val * 10) - (t0 * 10));
-  sprintf (s, "%d.%d", t0, t0d);
-}
-
 int main(void) {
   uint16_t adc_result;
   char out[64];
-  char vout[12];
   float voltage;
 
   adc_init();
@@ -61,14 +52,12 @@ int main(void) {
 
   while(1) {
 
-    adc_result = ReadADC(0);
-    voltage = (adc_result * 5.00) / 1023.00;
+      adc_result = ReadADC(0);
+      voltage = (adc_result * 5.00) / 1023.00;
 
-    formatFloatString(vout, voltage);
-    sprintf(out, "adc0 = %d; V = %s \r\n", adc_result, vout);
-
-    uart_puts(out);
-    uart_flush();
+      sprintf(out, "adc0 = %d; V = %lf \r\n", adc_result, voltage);
+      uart_puts(out);
+      uart_flush();
 
     _delay_ms(1000);
   }
