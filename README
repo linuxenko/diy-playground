@@ -15,12 +15,17 @@ as well, an information could be provided inside of its source code files.
   documentation  This folder contains some related documentation and things I'm unable to remember, so, now it
   is the place to search instead of making another web search request.
 
-  blink       General "hello world" application for microcontrollers in particular for an avr controller.
+  74hc164     A very basic implementation of "shiftOut" for AVR with example.
   blink-int   The same application using avr timer with interruption.
+  blink       General "hello world" application for microcontrollers in particular for an avr controller.
   blink-timer Custom timer countdown check inside of main loop.
   pcm-sound   Example of an avr timer usage to play sound using nothing but Mk.
+  uart        Serial communication techniques and examples
   usb-pcm     Plays stream (actualy sound data) via usb.
-  74hc164     A very basic implementation of "shiftOut" for AVR with example.
+
+Notes about "electronics" and "documentation" folders:
+ Nothing yet
+
 
 
 Notes
