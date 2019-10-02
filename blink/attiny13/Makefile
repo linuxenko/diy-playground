@@ -23,7 +23,7 @@ all:
 	${SIZE} -C --mcu=${MCU} ${TARGET}.elf
 
 flash:
-	${AVRDUDE} -p ${MCU} -c usbasp -U flash:w:${TARGET}.hex:i -F -P usb
+	${AVRDUDE} -p ${MCU} -c usbasp -U flash:w:${TARGET}.hex:i -F -P usb -p t13 -B64
 
 fuse:
 	$(AVRDUDE) -p ${MCU} -c usbasp -U hfuse:w:${FUSE_H}:m -U lfuse:w:${FUSE_L}:m
