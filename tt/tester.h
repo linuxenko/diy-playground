@@ -2,7 +2,7 @@
 * File Name     : tester.h
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-10-06 20:54]
-* Last Modified : [2019-10-06 22:53]
+* Last Modified : [2019-10-06 23:45]
 * Description   :  
 **********************************************************************************/
 
@@ -39,8 +39,8 @@ unsigned int  ReadADC (uint8_t mux);
 #define TP2 PC1               // AVR pin 24 probe.
 #define TP3 PC2               // AVR pin 25 probe.
 
-#define SMALL_CAP_VALUE 394   // 218  0xDA    Adjust for accuracy on big Caps with 750R, was 394
-#define LARGE_CAP_VALUE 283   // 167  0xA7    Adjust for accuracy, small Caps with 500K, was 283
+#define SMALL_CAP_VALUE 15   // 218  0xDA    Adjust for accuracy on big Caps with 750R, was 394
+#define LARGE_CAP_VALUE 15   // 167  0xA7    Adjust for accuracy, small Caps with 500K, was 283
 #define LARGE_R_VALUE 4700
 #define SMALL_R_VALUE 680
 #define NORMAL_CAP_TESTS 1    // Just do normal Cap test, compare to CapTestMode in EEPROM, 2 to enable all

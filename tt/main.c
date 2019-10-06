@@ -1094,13 +1094,13 @@ unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel 
 
   ADMUX = mux | (1 << REFS0);
 
-  for(uint8_t j = 0; j < 30; j++) {      // 20 measurements; for better accuracy
+  for(uint8_t j = 0; j < 20; j++) {      // 20 measurements; for better accuracy
     ADCSRA |= (1 << ADSC);
     while (ADCSRA & (1 << ADSC)) { }
     adcx += ADCW;
   }
 
-  adcx /= 30;
+  adcx /= 20;
   return adcx;
 }
 
