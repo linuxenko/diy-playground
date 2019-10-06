@@ -9,6 +9,9 @@
 #endif
 
 void lcd_data(unsigned char temp1) {
+#ifdef _DEBUG_UART
+  uart_putc(temp1);
+#endif
 /*  LCD_PORT |= (1<<LCD_RS);*/
 /*  lcd_send(temp1);*/
 }
@@ -90,5 +93,5 @@ void lcd_string(char *data) {
 }
 
 void lcd_eep_string(const unsigned char *data) {
-  lcd_string(data);
+  lcd_string((char *)data);
 }
