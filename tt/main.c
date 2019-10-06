@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <avr/eeprom.h>
 #include <avr/wdt.h>
 #include <math.h>
 
@@ -85,12 +84,13 @@ int main(void) {
   /*
    * TODO: fix this
    */
-  ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8
+/*  ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8*/
+  ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
 
-  unsigned int rhval = eeprom_read_word(&R_H_VAL);  // R_H
-  unsigned int rlval = eeprom_read_word(&R_L_VAL);  // R_L
+  unsigned int rhval = R_H_VAL;  // R_H
+  unsigned int rlval = R_L_VAL;  // R_L
 
-  ctmode = eeprom_read_byte(&CapTestMode);      // Compile time choice of test modes (0x22)
+  ctmode = CapTestMode;      // Compile time choice of test modes (0x22)
   cp1 = (ctmode & 12) >> 2;                     // Capacitor pin 1, DEFAULT 0
   cp2 = ctmode & 3;                             // Capacitor pin 2, DEFAULT 2
   ctmode = (ctmode & 48) >> 4;                  // Capacitor test mode, DEFAULT is 0x02 for all 6 cap tests.
@@ -395,7 +395,7 @@ start:                                          // re-entry point, if button is 
   } 
 
   //---------------------------------------------RESISTOR----------------------------------------------   
-  else if(PartFound == PART_RESISTOR) {
+  else if (PartFound == PART_RESISTOR) {
     lcd_eep_string(Resistor);     // Message - "Resistor: €€"
     lcd_data(GetPinAlias(ra + ASCII_1));     // Display 1, 2, or 3 Pin data
     lcd_data('-');
@@ -484,30 +484,14 @@ start:                                          // re-entry point, if button is 
 
 end:
 
-  while(!(ON_PIN_REG & (1<<RST_PIN)));   // wait, to tracers released
-  _delay_ms(200);
-
-  for(hfe[0] = 0;hfe[0]<10000;hfe[0]++) {   // 10 Seconds untill power off.
-
-    if(!(ON_PIN_REG & (1<<RST_PIN)))   // if the button is pressed, start all over
-      goto start;
-
-    wdt_reset();      // We want to wait the full 10 Seconds
-    _delay_ms(1);      // 1mS 10,000 times = 10 seconds
-  }
-
   wdt_disable();      // Watchdog out
-  // Continuous loop, no timer
-/*  while(1) {*/
-/*    if(!(RESET_GET()))     // only one reaches, if the automatic disconnection was not inserted*/
-/*      goto start;*/
-/*  }*/
-/**/
+  _delay_ms(2000);
   goto start;
   return 0;
 }         // End of main()
 
-void CheckPins(uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin) { // Do the tests on the Probe pins, get device characteristics
+void CheckPins(uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin) {
+  // Do the tests on the Probe pins, get device characteristics
   // HighPin   - Starts at H, logic 1.
   // LowPin    - Starts at L, logic 0.
   // TriState  - Starts Hi-Z, is put both H and L during the tests.
@@ -516,22 +500,22 @@ void CheckPins(uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin) { // Do the
   // HighPin is Vcc, LowPin is Gnd, TriState is HiZ
   wdt_reset();
   // Pin set
-  tmpval = (LowPin * 2);      // necessarily because of the arrangement of the resistances
-  R_DDR = (1<<tmpval);       // Low pin on exit and over R_L to ground
+  tmpval = (LowPin * 2);        // necessarily because of the arrangement of the resistances
+  R_DDR = (1<<tmpval);          // Low pin on exit and over R_L to ground
   R_PORT = 0;
-  ADC_DDR = (1<<HighPin);     // High pin on exit
-  ADC_PORT = (1<<HighPin);     // High pin to Vcc
+  ADC_DDR = (1<<HighPin);       // High pin on exit
+  ADC_PORT = (1<<HighPin);      // High pin to Vcc
   _delay_ms(5);
   // With some MOSFETs the gate (TriState act pin) must be unloaded first
   // N-channel:
-  DischargePin(TristatePin,0);      
-  adcv[0] = ReadADC(LowPin);      // Read the Voltage at the Low pin
+  DischargePin(TristatePin,0);
+  adcv[0] = ReadADC(LowPin);    // Read the Voltage at the Low pin
 
-  if(adcv[0] < 200) 
-    goto next;        // Does the Device close now?
+  if(adcv[0] < 200)
+    goto next;                  // Does the Device close now?
 
-  DischargePin(TristatePin,1);      // otherwise: Unloaded for p-channel (gate on pluses)
-  adcv[0] = ReadADC(LowPin);      // Read the Voltage at the Low pin
+  DischargePin(TristatePin,1);  // otherwise: Unloaded for p-channel (gate on pluses)
+  adcv[0] = ReadADC(LowPin);    // Read the Voltage at the Low pin
 
 next:
 
@@ -1052,14 +1036,14 @@ void ReadCapacity(uint8_t HighPin, uint8_t LowPin) {
     }
 
     if(tmpx) {
-      gcval = eeprom_read_word(&H_CAPACITY_FACTOR);
+      gcval = H_CAPACITY_FACTOR;
 
       if((extcnt == 0) && (tmpint < 5)) 
         goto end;       // Capacity too small
 
       cv = 1;
     } else {
-      gcval = eeprom_read_word(&L_CAPACITY_FACTOR);
+      gcval = L_CAPACITY_FACTOR;
       cv = 1000;
     }
 
@@ -1098,21 +1082,18 @@ end:
   ADC_DDR = 0x00;
   ADC_PORT = 0x00;
   R_DDR = 0;
-  R_PORT = 0; 
+  R_PORT = 0;
 }         // End of ReadCapacity()
 
 
 unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel pick out and as unsigned int back against
   unsigned int adcx = 0;
 
-  ADMUX = mux | (1<<REFS0);
+  ADMUX = mux | (1 << REFS0);
 
-  for(uint8_t j=0;j<20;j++) {      // 20 measurements; for better accuracy
-    ADCSRA |= (1<<ADSC);
-
-    while (ADCSRA&(1<<ADSC))
-      ;
-
+  for(uint8_t j = 0; j < 20; j++) {      // 20 measurements; for better accuracy
+    ADCSRA |= (1 << ADSC);
+    while (ADCSRA & (1 << ADSC)) { }
     adcx += ADCW;
   }
 
@@ -1133,7 +1114,7 @@ PinToDischarge: unloading pin DischargeDirection:
 
   tmpval = (PinToDischarge * 2);     // necessarily because of the arrangement of the resistances
 
-  if(DischargeDirection) 
+  if(DischargeDirection)
     R_PORT |= (1<<tmpval);      // R_L out
 
   R_DDR |= (1<<tmpval);       // Pin on exit and over R_L to ground
@@ -1164,4 +1145,8 @@ void lcd_show_format_cap(char outval[], uint8_t strlength, uint8_t CommaPos) {
       lcd_data(outval[PartReady]);
     }
   }
+
+#ifdef _DEBUG_UART
+  uart_putc('\n');
+#endif
 }
