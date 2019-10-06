@@ -196,25 +196,12 @@ start:                                          // re-entry point, if button is 
   // Begin testing sequince
   lcd_eep_string(TestRunning);      // Tell user the testing has begun...
 
-  UpdateProgress("00%");            // Progress at 00% and Testing
-
   CheckPins(TP1, TP2, TP3);         //   ||
-  UpdateProgress("16%");            //   \/
-
   CheckPins(TP1, TP3, TP2);         //  TESTING...
-  UpdateProgress("33%");            //
-
   CheckPins(TP2, TP1, TP3);         //   ||
-  UpdateProgress("50%");            //   \/
-
   CheckPins(TP2, TP3, TP1);         //  TESTING...
-  UpdateProgress("66%");            //
-
   CheckPins(TP3, TP2, TP1);         //   ||
-  UpdateProgress("83%");            //   \/
-
   CheckPins(TP3, TP1, TP2);         //    Almost there!
-  UpdateProgress("99%");            // Testing Completed or 99%
 
   //---------------------------------------------CAPACITOR---------------------------------------
   // Separate measurement to the test on condenser
