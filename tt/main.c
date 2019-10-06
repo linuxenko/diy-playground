@@ -1,47 +1,3 @@
-/*
-
-///////////////////////////////////////////////////////
-///////////////// AVR Component Tester ////////////////
-//////////////////    Version 1 beta    ///////////////
-///////////////////////////////////////////////////////
-
-AVR Component Tester
-Version 1.0 BETA
-
-This project is based on the original 'AVR Transistor Tester' and will be
-modified for a small group of people interested in expanding this project.
-The original project can be found:
-
-http://www.mikrocontroller.net/articles/AVR-Transistortester
-
-This new project (ACT for short) does not have its own website; but it does
-have its own google project page which includes news, wiki, bug tracking,
-and a publicly viewable SVN; where you can always find the latest source
-files and other resources such as: Schematics, PCB files; and even pre-
-compiled gerbers, if you want to get your own PCB(s) designed. The gerbers
-are already completed and designed to work with SEEED Studio's PCB rules and
-formats. See www.seeedstudios.com for more information on there 'Fusion PCB
-service'.
-
-Main Project Developers:
-BrentBXR (@Gmail.com)
-MickM
-
-We also have a related forum thread at DangerousPrototypes, there you can see
-where it all started, and where we are now with this project. Find it here:
-
-http://dangerousprototypes.com/forum/viewtopic.php?f=19&t=3260
-
-This is a open hardware project; which means everything about it from the source
-files, down to the schematics and pcb files are all open source and public domain
-you are welcome to use, modify, sell, or anything without issue. It is common
-curtosy to atleast let us know what your doing with our project if you use it.
-it is also common that if you decide to replicate and sell; that you atleast tell
-us... that said you dont have to tell us anything :P
-
-[BrentBXR]
-*/
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/sleep.h>
@@ -53,29 +9,19 @@ us... that said you dont have to tell us anything :P
 
 #include "lcd-routines.h"
 #include "settings.h"
+
+#ifdef _DEBUG_UART
 #include "uart.h"
+#endif
 
-// *########################################################################################
-
-// Initial Configuration
-
-uint8_t CapTestMode    EEMEM  = V_CAPTESTMODE; 
-
+uint8_t CapTestMode    EEMEM  = V_CAPTESTMODE;
 unsigned int F_VER     EEMEM  = _FIRMWARE_VERSION_;
 unsigned int F_REV     EEMEM  = _FIRMWARE_REVISION_;
 unsigned int H_REV     EEMEM  = _HARDWARE_REVISION_;
-
 unsigned int R_L_VAL    EEMEM  = SMALL_R_VALUE;
 unsigned int R_H_VAL    EEMEM  = LARGE_R_VALUE;
-
 unsigned int H_CAPACITY_FACTOR  EEMEM = SMALL_CAP_VALUE;
 unsigned int L_CAPACITY_FACTOR  EEMEM = LARGE_CAP_VALUE;
-
-
-// *########################################################################################
-
-// Words, messages, and strings:        
-
 
 unsigned char StartupMessage[] EEMEM = "ACT v1.2   ";
 unsigned char BatMode[]   EEMEM = "[BAT]";
@@ -85,15 +31,11 @@ unsigned char TestCapV[]  EEMEM = "Measuring ->";
 unsigned char Bat[]             EEMEM = "Battery ";
 unsigned char BatWeak[]         EEMEM = "weak";
 unsigned char BatEmpty[]        EEMEM = "empty!";
-
 unsigned char TestFailed1[]     EEMEM = "Unknown, Damaged";
 unsigned char TestFailed2[]     EEMEM = "or Nothing found";
-
 unsigned char BadResult1[]  EEMEM = " Part's Unknown";
 unsigned char BadResult2[]  EEMEM = " or Damaged: ";
-
 unsigned char TestTimedOut[]  EEMEM = "Timeout!";
-
 // Components
 unsigned char Diode[]           EEMEM = "Diode: ";
 unsigned char DualDiode[]       EEMEM = "Double diode ";
@@ -104,7 +46,6 @@ unsigned char Capacitor[]   EEMEM = "Capacitor: ";
 unsigned char InSeries[]        EEMEM = "serial A=";
 unsigned char Triac[]           EEMEM = "Triac";
 unsigned char Thyristor[]       EEMEM = "Thyristor";
-
 // Codes and Values
 unsigned char K1[]          EEMEM = ";C1=";
 unsigned char K2[]          EEMEM = ";C2=";
@@ -132,7 +73,6 @@ unsigned char Anode[]    EEMEM = "A=";
 unsigned char Gate[]     EEMEM = "G=";
 unsigned char CA[]       EEMEM = "CA";
 unsigned char CC[]       EEMEM = "CC";
-
 // LCD Icons
 unsigned char DiodeIcon[] EEMEM = {4,31,31,14,14,4,31,4,0}; // Diode icon
 
@@ -141,47 +81,45 @@ struct Diode {
   uint8_t Cathode;
   int Voltage;
 };
-// Function prototypes
 
+// Functions
 void    CheckPins   (uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin);
 void    DischargePin  (uint8_t PinToDischarge, uint8_t DischargeDirection);
 unsigned int  ReadADC    (uint8_t mux);
 void    lcd_show_format_cap (char outval[], uint8_t strlength, uint8_t CommaPos);
 void    ReadCapacity  (uint8_t HighPin, uint8_t LowPin);  
 
-
 volatile unsigned int PowerMode=PWR_5V;
-
 
 struct    Diode diodes[6];
 
-uint8_t   NumOfDiodes;
-uint8_t   b;      // pins of transistor
-uint8_t   c;      // pins of transistor
-uint8_t   e;      // pins of transistor
-unsigned long  lhfe;     // Amplification factor
-uint8_t   PartReady;    // Device recognized, Transistor, FET, Triac
+uint8_t       NumOfDiodes;
+uint8_t       b;      // pins of transistor
+uint8_t       c;      // pins of transistor
+uint8_t       e;      // pins of transistor
+unsigned long lhfe;     // Amplification factor
+uint8_t       PartReady;    // Device recognized, Transistor, FET, Triac
 unsigned int  hfe[2];     // Amplification factors
 unsigned int  uBE[2];     // B-E Covering for transistors
-uint8_t   PartMode;    // See defines PART_MODE_
-uint8_t   tmpval;
-uint8_t   tmpval2;
-uint8_t   ra;      // Resistance pin
-uint8_t   rb;      // Resistance pin
+uint8_t       PartMode;    // See defines PART_MODE_
+uint8_t       tmpval;
+uint8_t       tmpval2;
+uint8_t       ra;      // Resistance pin
+uint8_t       rb;      // Resistance pin
 unsigned int  rv[2];     // Voltage drop at the resistance
 unsigned int  radcmax[2];          // Max ADC value (smaller than 1023, comes close but does not get to zero)
-uint8_t   ca;      // Condenser-Pins
-uint8_t   cb;      // Condenser-Pins
-uint8_t   cp1;     // Testing condenser pins, if measurement for individual pins selected
-uint8_t   cp2;     // Testing condenser pins, if measurement for individual pins sel
-uint8_t   ctmode;     // Condenser test mode
-unsigned long  cv;
-uint8_t   tmpPartFound;   // temp found Device, used for Resistor
-uint8_t   PartFound;    // the found Device numeric ID see defines PART_
-char    outval[8];
+uint8_t       ca;      // Condenser-Pins
+uint8_t       cb;      // Condenser-Pins
+uint8_t       cp1;     // Testing condenser pins, if measurement for individual pins selected
+uint8_t       cp2;     // Testing condenser pins, if measurement for individual pins sel
+uint8_t       ctmode;     // Condenser test mode
+unsigned long cv;
+uint8_t       tmpPartFound;   // temp found Device, used for Resistor
+uint8_t       PartFound;    // the found Device numeric ID see defines PART_
+char          outval[8];
 unsigned int  adcv[4];
 unsigned int  gthvoltage;    // Gate threshold voltage
-char    outval2[6];
+char          outval2[6];
 
 #ifdef ENABLE_PIN_ALIAS
 uint8_t GetPinAlias(uint8_t nPin)    // GetPinAlias allows the user to define his own
@@ -210,9 +148,10 @@ int main(void) {
   PWRMODE_SETUP();          // Setup PWRMODE jumper input
   lcd_init();           // init LCD
 
+#ifdef _DEBUG_UART
   uart_init(UART_BAUD_SELECT(9600, F_CPU));
-
   uart_puts("UART has been initialized");
+#endif
 
   ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8
 
