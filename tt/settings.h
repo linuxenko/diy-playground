@@ -187,17 +187,14 @@
 #define PART_MODE_PNP   2
 
 
-//////// [ Device Power Selection Jumper and Ident ] ///////////////////////////////////////////////////////////////////
-
 //// Pin Registers ///////////////////////////////
 #define PWRMODE_DDR   DDRB
 #define PWRMODE_PIN   PINB
-#define PWRMODE_PORT   PORTB
+#define PWRMODE_PORT  PORTB
 #define PWRMODE_BIT   PB6
 
 //// Power Mode Ident ////////////////////////////
-#define PWR_5V     0
-#define PWR_9V     1
+#define PWR_5V     1
 
 //// Pin Control Defines ////////////////////////
 //PWRMODE_SETUP() = Sets the jumper for the power selection into input with internal pull-up

@@ -30,8 +30,6 @@ const unsigned int R_H_VAL              = LARGE_R_VALUE;
 const unsigned int H_CAPACITY_FACTOR    = SMALL_CAP_VALUE;
 const unsigned int L_CAPACITY_FACTOR    = LARGE_CAP_VALUE;
 
-const unsigned char BatMode[]           = "[BAT]";
-const unsigned char PwrMode[]           = "[PWR]";
 const unsigned char TestRunning[]       = "Testing   ->";
 const unsigned char TestCapV[]          = "Measuring ->";
 const unsigned char Bat[]               = "Battery ";
@@ -90,8 +88,6 @@ struct Diode {
 
 struct        Diode diodes[6];
 uint8_t       NumOfDiodes;
-
-volatile unsigned int PowerMode = PWR_5V;
 
 uint8_t       b;            // pins of transistor
 uint8_t       c;            // pins of transistor
@@ -569,10 +565,6 @@ end:
     wdt_reset();      // We want to wait the full 10 Seconds
     _delay_ms(1);      // 1mS 10,000 times = 10 seconds
   }
-
-/*  if(PowerMode==PWR_9V) {    // If in battery mode; try to turn off; otherwise wait for a reset*/
-/*    POWER_OFF();*/
-/*  }*/
 
   wdt_disable();      // Watchdog out
   // Continuous loop, no timer
