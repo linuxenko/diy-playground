@@ -14,6 +14,13 @@
 #include "uart.h"
 #endif
 
+// Functions
+void    CheckPins   (uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin);
+void    DischargePin  (uint8_t PinToDischarge, uint8_t DischargeDirection);
+void    lcd_show_format_cap (char outval[], uint8_t strlength, uint8_t CommaPos);
+void    ReadCapacity  (uint8_t HighPin, uint8_t LowPin);  
+unsigned int  ReadADC    (uint8_t mux);
+
 const uint8_t CapTestMode               = V_CAPTESTMODE;
 const unsigned int F_VER                = _FIRMWARE_VERSION_;
 const unsigned int F_REV                = _FIRMWARE_REVISION_;
@@ -72,8 +79,8 @@ const unsigned char Anode[]             = "A=";
 const unsigned char Gate[]              = "G=";
 const unsigned char CA[]                = "CA";
 const unsigned char CC[]                = "CC";
-const // LCD Icons
-const unsigned char DiodeIcon[]         = {4,31,31,14,14,4,31,4,0}; // Diode icon
+
+//const unsigned char DiodeIcon[]         = {4,31,31,14,14,4,31,4,0}; // Diode icon
 
 struct Diode {
   uint8_t Anode;
@@ -81,43 +88,36 @@ struct Diode {
   int Voltage;
 };
 
-// Functions
-void    CheckPins   (uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin);
-void    DischargePin  (uint8_t PinToDischarge, uint8_t DischargeDirection);
-void    lcd_show_format_cap (char outval[], uint8_t strlength, uint8_t CommaPos);
-void    ReadCapacity  (uint8_t HighPin, uint8_t LowPin);  
-unsigned int  ReadADC    (uint8_t mux);
-
-volatile unsigned int PowerMode=PWR_5V;
-
-struct    Diode diodes[6];
-
+struct        Diode diodes[6];
 uint8_t       NumOfDiodes;
-uint8_t       b;      // pins of transistor
-uint8_t       c;      // pins of transistor
-uint8_t       e;      // pins of transistor
-unsigned long lhfe;     // Amplification factor
+
+volatile unsigned int PowerMode = PWR_5V;
+
+uint8_t       b;            // pins of transistor
+uint8_t       c;            // pins of transistor
+uint8_t       e;            // pins of transistor
+unsigned long lhfe;         // Amplification factor
 uint8_t       PartReady;    // Device recognized, Transistor, FET, Triac
-unsigned int  hfe[2];     // Amplification factors
-unsigned int  uBE[2];     // B-E Covering for transistors
-uint8_t       PartMode;    // See defines PART_MODE_
+unsigned int  hfe[2];       // Amplification factors
+unsigned int  uBE[2];       // B-E Covering for transistors
+uint8_t       PartMode;     // See defines PART_MODE_
 uint8_t       tmpval;
 uint8_t       tmpval2;
-uint8_t       ra;      // Resistance pin
-uint8_t       rb;      // Resistance pin
-unsigned int  rv[2];     // Voltage drop at the resistance
-unsigned int  radcmax[2];          // Max ADC value (smaller than 1023, comes close but does not get to zero)
-uint8_t       ca;      // Condenser-Pins
-uint8_t       cb;      // Condenser-Pins
-uint8_t       cp1;     // Testing condenser pins, if measurement for individual pins selected
-uint8_t       cp2;     // Testing condenser pins, if measurement for individual pins sel
-uint8_t       ctmode;     // Condenser test mode
+uint8_t       ra;           // Resistance pin
+uint8_t       rb;           // Resistance pin
+unsigned int  rv[2];        // Voltage drop at the resistance
+unsigned int  radcmax[2];   // Max ADC value (smaller than 1023, comes close but does not get to zero)
+uint8_t       ca;           // Condenser-Pins
+uint8_t       cb;           // Condenser-Pins
+uint8_t       cp1;          // Testing condenser pins, if measurement for individual pins selected
+uint8_t       cp2;          // Testing condenser pins, if measurement for individual pins sel
+uint8_t       ctmode;       // Condenser test mode
 unsigned long cv;
-uint8_t       tmpPartFound;   // temp found Device, used for Resistor
+uint8_t       tmpPartFound; // temp found Device, used for Resistor
 uint8_t       PartFound;    // the found Device numeric ID see defines PART_
 char          outval[8];
 unsigned int  adcv[4];
-unsigned int  gthvoltage;    // Gate threshold voltage
+unsigned int  gthvoltage;   // Gate threshold voltage
 char          outval2[6];
 
 /*
@@ -194,7 +194,6 @@ start:                                          // re-entry point, if button is 
   SetCursor(1,0);
 
   // Begin testing sequince
-
   lcd_eep_string(TestRunning);      // Tell user the testing has begun...
 
   UpdateProgress("00%");            // Progress at 00% and Testing
@@ -219,7 +218,10 @@ start:                                          // re-entry point, if button is 
 
   //---------------------------------------------CAPACITOR---------------------------------------
   // Separate measurement to the test on condenser
-  if(((PartFound == PART_NONE) || (PartFound == PART_RESISTOR) || (PartFound == PART_DIODE)) && (ctmode > 0)) {
+  if(((PartFound == PART_NONE) ||
+      (PartFound == PART_RESISTOR) ||
+      (PartFound == PART_DIODE)) && (ctmode > 0)) {
+
     // Condenser unload; otherwise possibly no measurement is possible
     R_PORT = 0;
     R_DDR = (1<<(TP1 * 2)) | (1<<(TP2 * 2)) | (1<<(TP3 * 2));
