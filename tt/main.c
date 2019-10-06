@@ -14,67 +14,67 @@
 #include "uart.h"
 #endif
 
-uint8_t CapTestMode    EEMEM  = V_CAPTESTMODE;
-unsigned int F_VER     EEMEM  = _FIRMWARE_VERSION_;
-unsigned int F_REV     EEMEM  = _FIRMWARE_REVISION_;
-unsigned int H_REV     EEMEM  = _HARDWARE_REVISION_;
-unsigned int R_L_VAL    EEMEM  = SMALL_R_VALUE;
-unsigned int R_H_VAL    EEMEM  = LARGE_R_VALUE;
-unsigned int H_CAPACITY_FACTOR  EEMEM = SMALL_CAP_VALUE;
-unsigned int L_CAPACITY_FACTOR  EEMEM = LARGE_CAP_VALUE;
+uint8_t CapTestMode              EEMEM  = V_CAPTESTMODE;
+unsigned int F_VER               EEMEM  = _FIRMWARE_VERSION_;
+unsigned int F_REV               EEMEM  = _FIRMWARE_REVISION_;
+unsigned int H_REV               EEMEM  = _HARDWARE_REVISION_;
+unsigned int R_L_VAL             EEMEM  = SMALL_R_VALUE;
+unsigned int R_H_VAL             EEMEM  = LARGE_R_VALUE;
+unsigned int H_CAPACITY_FACTOR   EEMEM = SMALL_CAP_VALUE;
+unsigned int L_CAPACITY_FACTOR   EEMEM = LARGE_CAP_VALUE;
 
-unsigned char StartupMessage[] EEMEM = "ACT v1.2   ";
-unsigned char BatMode[]   EEMEM = "[BAT]";
-unsigned char PwrMode[]   EEMEM = "[PWR]";
-unsigned char TestRunning[]     EEMEM = "Testing   ->";
-unsigned char TestCapV[]  EEMEM = "Measuring ->";
-unsigned char Bat[]             EEMEM = "Battery ";
-unsigned char BatWeak[]         EEMEM = "weak";
-unsigned char BatEmpty[]        EEMEM = "empty!";
-unsigned char TestFailed1[]     EEMEM = "Unknown, Damaged";
-unsigned char TestFailed2[]     EEMEM = "or Nothing found";
-unsigned char BadResult1[]  EEMEM = " Part's Unknown";
-unsigned char BadResult2[]  EEMEM = " or Damaged: ";
-unsigned char TestTimedOut[]  EEMEM = "Timeout!";
+unsigned char StartupMessage[]   EEMEM = "ACT v1.2   ";
+unsigned char BatMode[]          EEMEM = "[BAT]";
+unsigned char PwrMode[]          EEMEM = "[PWR]";
+unsigned char TestRunning[]      EEMEM = "Testing   ->";
+unsigned char TestCapV[]         EEMEM = "Measuring ->";
+unsigned char Bat[]              EEMEM = "Battery ";
+unsigned char BatWeak[]          EEMEM = "weak";
+unsigned char BatEmpty[]         EEMEM = "empty!";
+unsigned char TestFailed1[]      EEMEM = "Unknown, Damaged";
+unsigned char TestFailed2[]      EEMEM = "or Nothing found";
+unsigned char BadResult1[]       EEMEM = " Part's Unknown";
+unsigned char BadResult2[]       EEMEM = " or Damaged: ";
+unsigned char TestTimedOut[]     EEMEM = "Timeout!";
 // Components
-unsigned char Diode[]           EEMEM = "Diode: ";
-unsigned char DualDiode[]       EEMEM = "Double diode ";
-unsigned char TwoDiodes[]       EEMEM = "2 diodes";
-unsigned char Antiparallel[]    EEMEM = "anti-parallel";
-unsigned char Resistor[]   EEMEM = "Resistor: ";
-unsigned char Capacitor[]   EEMEM = "Capacitor: ";
-unsigned char InSeries[]        EEMEM = "serial A=";
-unsigned char Triac[]           EEMEM = "Triac";
-unsigned char Thyristor[]       EEMEM = "Thyristor";
+unsigned char Diode[]            EEMEM = "Diode: ";
+unsigned char DualDiode[]        EEMEM = "Double diode ";
+unsigned char TwoDiodes[]        EEMEM = "2 diodes";
+unsigned char Antiparallel[]     EEMEM = "anti-parallel";
+unsigned char Resistor[]         EEMEM = "Resistor: ";
+unsigned char Capacitor[]        EEMEM = "Capacitor: ";
+unsigned char InSeries[]         EEMEM = "serial A=";
+unsigned char Triac[]            EEMEM = "Triac";
+unsigned char Thyristor[]        EEMEM = "Thyristor";
 // Codes and Values
-unsigned char K1[]          EEMEM = ";C1=";
-unsigned char K2[]          EEMEM = ";C2=";
-unsigned char GAK[]         EEMEM = "GAC=";
-unsigned char NextK[]       EEMEM = ";C=";
-unsigned char K[]           EEMEM = "C=";
-unsigned char mosfet[]   EEMEM = "-MOS";
-unsigned char emode[]    EEMEM = "-E";
-unsigned char dmode[]    EEMEM = "-D";
-unsigned char jfet[]     EEMEM = "-JFET";
-unsigned char A1[]       EEMEM = ";A1=";
-unsigned char A2[]       EEMEM = ";A2=";
-unsigned char GateCap[]  EEMEM = " C=";
-unsigned char hfestr[]   EEMEM = "hFE=";
-unsigned char NPN[]      EEMEM = "NPN";
-unsigned char PNP[]      EEMEM = "PNP";
-unsigned char bstr[]     EEMEM = " B=";
-unsigned char cstr[]     EEMEM = ";C=";
-unsigned char estr[]     EEMEM = ";E=";
-unsigned char gds[]      EEMEM = "GDS=";
-unsigned char Uf[]       EEMEM = "Uf=";
-unsigned char vt[]       EEMEM = "Vt=";
-unsigned char mV[]       EEMEM = "mV";
-unsigned char Anode[]    EEMEM = "A=";
-unsigned char Gate[]     EEMEM = "G=";
-unsigned char CA[]       EEMEM = "CA";
-unsigned char CC[]       EEMEM = "CC";
+unsigned char K1[]               EEMEM = ";C1=";
+unsigned char K2[]               EEMEM = ";C2=";
+unsigned char GAK[]              EEMEM = "GAC=";
+unsigned char NextK[]            EEMEM = ";C=";
+unsigned char K[]                EEMEM = "C=";
+unsigned char mosfet[]           EEMEM = "-MOS";
+unsigned char emode[]            EEMEM = "-E";
+unsigned char dmode[]            EEMEM = "-D";
+unsigned char jfet[]             EEMEM = "-JFET";
+unsigned char A1[]               EEMEM = ";A1=";
+unsigned char A2[]               EEMEM = ";A2=";
+unsigned char GateCap[]          EEMEM = " C=";
+unsigned char hfestr[]           EEMEM = "hFE=";
+unsigned char NPN[]              EEMEM = "NPN";
+unsigned char PNP[]              EEMEM = "PNP";
+unsigned char bstr[]             EEMEM = " B=";
+unsigned char cstr[]             EEMEM = ";C=";
+unsigned char estr[]             EEMEM = ";E=";
+unsigned char gds[]              EEMEM = "GDS=";
+unsigned char Uf[]               EEMEM = "Uf=";
+unsigned char vt[]               EEMEM = "Vt=";
+unsigned char mV[]               EEMEM = "mV";
+unsigned char Anode[]            EEMEM = "A=";
+unsigned char Gate[]             EEMEM = "G=";
+unsigned char CA[]               EEMEM = "CA";
+unsigned char CC[]               EEMEM = "CC";
 // LCD Icons
-unsigned char DiodeIcon[] EEMEM = {4,31,31,14,14,4,31,4,0}; // Diode icon
+unsigned char DiodeIcon[]        EEMEM = {4,31,31,14,14,4,31,4,0}; // Diode icon
 
 struct Diode {
   uint8_t Anode;
@@ -85,9 +85,9 @@ struct Diode {
 // Functions
 void    CheckPins   (uint8_t HighPin, uint8_t LowPin, uint8_t TristatePin);
 void    DischargePin  (uint8_t PinToDischarge, uint8_t DischargeDirection);
-unsigned int  ReadADC    (uint8_t mux);
 void    lcd_show_format_cap (char outval[], uint8_t strlength, uint8_t CommaPos);
 void    ReadCapacity  (uint8_t HighPin, uint8_t LowPin);  
+unsigned int  ReadADC    (uint8_t mux);
 
 volatile unsigned int PowerMode=PWR_5V;
 
