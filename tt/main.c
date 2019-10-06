@@ -427,6 +427,9 @@ start:                                          // re-entry point, if button is 
     ultoa(lhfe,outval,10);
 
     if(rv[1] == rhval) {     // 470k- Resisted?
+#ifdef _DEBUG_UART
+  uart_puts("Same resistance\n");
+#endif
       ra = strlen(outval);     // Necessarily, in order to indicate comma
 
       for(rb=0;rb<ra;rb++) {
@@ -440,10 +443,10 @@ start:                                          // re-entry point, if button is 
     } else 
       lcd_string(outval);
 
-    lcd_data(LCD_CHAR_OMEGA);     // Omega for ohms 
+    lcd_data(LCD_CHAR_OMEGA);     // Omega for ohms
     goto end;
 
-  } 
+  }
 
   //---------------------------------------------CAPACITOR---------------------------------------------     
   else if(PartFound == PART_CAPACITOR) {   // Capacitor measurement
@@ -1091,13 +1094,13 @@ unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel 
 
   ADMUX = mux | (1 << REFS0);
 
-  for(uint8_t j = 0; j < 20; j++) {      // 20 measurements; for better accuracy
+  for(uint8_t j = 0; j < 30; j++) {      // 20 measurements; for better accuracy
     ADCSRA |= (1 << ADSC);
     while (ADCSRA & (1 << ADSC)) { }
     adcx += ADCW;
   }
 
-  adcx /= 20;
+  adcx /= 30;
   return adcx;
 }
 
