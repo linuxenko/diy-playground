@@ -145,18 +145,21 @@
 #define ON_PIN   PD6
 #define RST_PIN  PD7
 
+/*
+ * Everybody knows that power has given by gods and chthulhu, humanity do not need this
+ */
 //// Pin Control Defines ////////////////////////
 //POWER_ON()  = Turn the regulator ON 
-#define POWER_ON()  ON_DDR = (1<<ON_PIN); SETBIT(ON_PORT,ON_PIN); SETBIT(ON_PORT,RST_PIN)
+//#define POWER_ON()  ON_DDR = (1<<ON_PIN); SETBIT(ON_PORT,ON_PIN); SETBIT(ON_PORT,RST_PIN)
 
 //POWER_OFF()  = Turn the regulator OFF
-#define POWER_OFF() CLEARBIT(ON_PORT,ON_PIN); CLEARBIT(ON_DDR,ON_PIN); CLEARBIT(ON_PORT,ON_PIN)
+//#define POWER_OFF() CLEARBIT(ON_PORT,ON_PIN); CLEARBIT(ON_DDR,ON_PIN); CLEARBIT(ON_PORT,ON_PIN)
 
 //POWER_GET()  = Get the ON_PIN logic
-#define POWER_GET() CHECKBIT(ON_PIN_REG,ON_PIN)
+//#define POWER_GET() CHECKBIT(ON_PIN_REG,ON_PIN)
 
 //RESET_GET() = Get the reset's logic
-#define RESET_GET() CHECKBIT(ON_PIN_REG,RST_PIN)
+//#define RESET_GET() CHECKBIT(ON_PIN_REG,RST_PIN)
 
 
 //////// [ Part/Component Unique Identifying Defines ] /////////////////////////////////////////////////////////////////

@@ -46,10 +46,6 @@ void lcd_eep_string(const unsigned char *data);
 
 #define CLEAR_DISPLAY 0x01        // clear display
 
-//Macros for LCD
-#define Line1() SetCursor(1,0)       //jump to start of first line
-#define Line2() SetCursor(2,0)       //jump to start of second line
-
 #define SetCursor(y, x) lcd_command((uint8_t)(CMD_SetDDRAMAddress + (0x40*(y-1)) + x)) //To a certain position jump
 
 #define UpdateProgress(x) SetCursor(2,13); lcd_string(x)

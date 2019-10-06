@@ -121,9 +121,15 @@ unsigned int  adcv[4];
 unsigned int  gthvoltage;    // Gate threshold voltage
 char          outval2[6];
 
+/*
+ * Don't understand why someone would need it,
+ * but it seems to be simple so keep it until I have some
+ * extra space
+ */
 #ifdef ENABLE_PIN_ALIAS
-uint8_t GetPinAlias(uint8_t nPin)    // GetPinAlias allows the user to define his own
-{            // alias for each pin #; defined in 'settings.h'
+// GetPinAlias allows the user to define his own
+uint8_t GetPinAlias(uint8_t nPin) {
+  // alias for each pin #; defined in 'settings.h'
   switch(nPin) {
     case (unsigned char)'1':
       nPin = PIN1_ALIAS;
@@ -144,57 +150,53 @@ uint8_t GetPinAlias(uint8_t nPin)    // GetPinAlias allows the user to define hi
 int main(void) {
   uint8_t tmp;
 
-  POWER_ON();           // Turn the regulator ON
-  PWRMODE_SETUP();          // Setup PWRMODE jumper input
-  lcd_init();           // init LCD
+  lcd_init();
 
 #ifdef _DEBUG_UART
   uart_init(UART_BAUD_SELECT(9600, F_CPU));
   uart_puts("UART has been initialized");
 #endif
 
+  /*
+   * TODO: fix this
+   */
   ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8
 
   unsigned int rhval = eeprom_read_word(&R_H_VAL);  // R_H
   unsigned int rlval = eeprom_read_word(&R_L_VAL);  // R_L
 
-  ctmode = eeprom_read_byte(&CapTestMode);    // Compile time choice of test modes (0x22)
-  cp1 = (ctmode & 12) >> 2;       // Capacitor pin 1, DEFAULT 0
-  cp2 = ctmode & 3;          // Capacitor pin 2, DEFAULT 2
-  ctmode = (ctmode & 48) >> 4;       // Capacitor test mode, DEFAULT is 0x02 for all 6 cap tests.
+  ctmode = eeprom_read_byte(&CapTestMode);      // Compile time choice of test modes (0x22)
+  cp1 = (ctmode & 12) >> 2;                     // Capacitor pin 1, DEFAULT 0
+  cp2 = ctmode & 3;                             // Capacitor pin 2, DEFAULT 2
+  ctmode = (ctmode & 48) >> 4;                  // Capacitor test mode, DEFAULT is 0x02 for all 6 cap tests.
 
-  wdt_disable();          // Disable watch dog timer.
+  wdt_disable();
 
-  if(MCU_STATUS_REG & (1<<WDRF)) {      // Examine for Watchdog RESETs That enters, if the Watchdog 2s were not put back Can occur, 
-    lcd_clear();                                                    // if the program in a continuous loop " itself; tangled" has.
-    lcd_eep_string(TestTimedOut);      // Message - "Timeout!"
-    _delay_ms(3000);                                 // Wait 3 sec
-    wdt_enable(WDTO_2S);        // Wait two seconds; if on power it will reset; on battery it will turn itself off
-    while(1) {
-      POWER_OFF();         // Power down in BAT mode or RESET in PWR mode
-    }
-  }
+  LCDLoadCustomChar();                          // Custom indication Diode symbol into LCD load
+  lcd_eep_string(DiodeIcon);                    // Message - diode icon
+  SetCursor(1,0);
 
-  LCDLoadCustomChar();         // Custom indication Diode symbol into LCD load
-  lcd_eep_string(DiodeIcon);       // Message - diode icon
-  Line1();            // jump to start of first line
+start:                                          // re-entry point, if button is re-pressed
 
-start:             // re-entry point, if button is re-pressed
 #ifdef WDT_enabled
-  wdt_enable(WDTO_2S);        // Watchdog Timer on, 2 seconds?
+  wdt_enable(WDTO_2S);
 #endif
 
-  PartFound  = PART_NONE;       // Default all results
-  tmpPartFound  = PART_NONE;       //    "    " 
-  NumOfDiodes  = 0;         //   ||
-  PartReady  = 0;         //   ||
-  PartMode   = 0;         //   ||
-  ca    = 0;         //   ||
-  cb    = 0;         //   \/
+  PartFound = PART_NONE;                        // Default all results
+  tmpPartFound = PART_NONE;
+  NumOfDiodes = 0;
+  PartReady = 0;
+  PartMode = 0;
+  ca = 0;
+  cb = 0;
 
-  // -> // Startup Message ////////////////////////////////////////
-  lcd_clear();          // 
-  lcd_eep_string(StartupMessage);     // LCD: ACT v#.#    [XXX]
+
+#ifdef _DEBUG_UART
+  uart_puts("We're starting\n");
+#endif
+  // Startup Message
+  lcd_clear();
+  lcd_eep_string(StartupMessage);              // LCD: ACT v#.#    [XXX]
 
 
 
@@ -208,7 +210,7 @@ start:             // re-entry point, if button is re-pressed
     hfe[0] = ReadADC(5 | (1<<REFS1));    // if in battery mode.
 
     lcd_eep_string(BatMode);      // Tell user device in BAT mode
-    Line2();
+    SetCursor(2,0);
 
     if (hfe[0] < BAT_WEAK) {      // Compare 9v reading with BAT_WEAK variable
 
@@ -216,20 +218,20 @@ start:             // re-entry point, if button is re-pressed
         lcd_eep_string(Bat);     
         lcd_eep_string(BatEmpty);    // Tell the user battery is DEAD
         _delay_ms(3000);      // Wait a bit.
-        while(1) {        // Forever loop
-          POWER_OFF();      // keep trying to kill the power forever.
-        }
+/*        while(1) {        // Forever loop*/
+/*          POWER_OFF();      // keep trying to kill the power forever.*/
+/*        }*/
       }
 
       lcd_clear();   
       lcd_eep_string(Bat);      // Battery isnt dead; its just weak
       lcd_eep_string(BatWeak);     // tell the user; but keep testing...
-      Line2();         // Start second line
+      SetCursor(2, 0);
     }
   } else {
     PowerMode = PWR_5V;        // Power mode is constent v5, skip battery check.
     lcd_eep_string(PwrMode);      // Tell user we are running in PWR mode.
-    Line2();
+    SetCursor(2, 0);
   }
 
   // -> // Begin testing sequince. ///////////////////////////////
@@ -270,7 +272,7 @@ start:             // re-entry point, if button is re-pressed
       ReadCapacity(cp1, cp2);      // No - just read the pins both ways.
       ReadCapacity(cp2, cp1);
     } else {        // DEFAULT ctmode == 0x02  to do all tests
-      Line2();
+      SetCursor(2, 0);
       lcd_eep_string(TestCapV);
       UpdateProgress("00%");
 
@@ -304,7 +306,7 @@ start:             // re-entry point, if button is re-pressed
       lcd_data(GetPinAlias(diodes[0].Anode + ASCII_1));    // Display 1, 2, or 3
       lcd_eep_string(NextK);      // Message - ";C="
       lcd_data(GetPinAlias(diodes[0].Cathode + ASCII_1));    // Display 1, 2, or 3
-      Line2();        // Start second line
+      SetCursor(2, 0);
       lcd_eep_string(Uf);      // Message - "Uf="
       lcd_string(itoa(diodes[0].Voltage, outval, 10));
       lcd_eep_string(mV);      // Message - "mV"
@@ -313,7 +315,7 @@ start:             // re-entry point, if button is re-pressed
       if(diodes[0].Anode == diodes[1].Anode) {   // Common Anode
         lcd_eep_string(DualDiode);     // Message - "Double diode €"
         lcd_eep_string(CA);      // Message - "CA"
-        Line2();       // Start second line
+        SetCursor(2, 0);
         lcd_eep_string(Anode);     // Message - "A="
         lcd_data(GetPinAlias(diodes[0].Anode + ASCII_1));    // Display 1, 2, or 3
         lcd_eep_string(K1);      // Message - ";C1="
@@ -324,7 +326,7 @@ start:             // re-entry point, if button is re-pressed
       } else if(diodes[0].Cathode == diodes[1].Cathode) {  // Common Cathode
         lcd_eep_string(DualDiode);     // Message - "Double diode €"
         lcd_eep_string(CC);      // Message - "CC"
-        Line2();        // Start second line
+        SetCursor(2, 0);
         lcd_eep_string(K);      // Message - "C="
         lcd_data(GetPinAlias(diodes[0].Cathode + ASCII_1));   // Display 1, 2, or 3
         lcd_eep_string(A1);      // Message - ";A1="
@@ -335,7 +337,7 @@ start:             // re-entry point, if button is re-pressed
       } else if ((diodes[0].Cathode == diodes[1].Anode) && \
           (diodes[1].Cathode == diodes[0].Anode)) {  // Antiparallel
         lcd_eep_string(TwoDiodes);    // Message - "2 diodes"
-        Line2();        // Start second line
+        SetCursor(2, 0);
         lcd_eep_string(Antiparallel);    // Message - "anti-parallel"
         goto end;
       }
@@ -359,7 +361,7 @@ start:             // re-entry point, if button is re-pressed
 
       if((b<3) && (c<3)) {
         lcd_eep_string(TwoDiodes);     // Message - "2 diodes"
-        Line2();       // Start second line
+        SetCursor(2, 0);
         lcd_eep_string(InSeries);     // Message - "serial A=€€"
         lcd_data(GetPinAlias(b + ASCII_1));     // Display 1, 2, or 3
         lcd_eep_string(NextK);     // Message - ";C="
@@ -398,7 +400,7 @@ start:             // re-entry point, if button is re-pressed
     lcd_eep_string(estr);      // Message - ";E="
     lcd_data(GetPinAlias(e + ASCII_1));      // Display 1, 2, or 3
 
-    Line2();         // Start second line
+    SetCursor(2, 0);
     // Amplification factor compute, hFE = Emitter current/base current
     lhfe = hfe[1];
     lhfe *= (((unsigned long)rhval * 100) / (unsigned long)rlval); // 500000/750 = 666.666r
@@ -470,7 +472,7 @@ start:             // re-entry point, if button is re-pressed
       lcd_data('n');
     }
 
-    Line2();       // Start second line
+    SetCursor(2, 0);
     lcd_eep_string(gds);      // Message - "GDS="
     lcd_data(GetPinAlias(b + ASCII_1));     // Display 1, 2, or 3
     lcd_data(GetPinAlias(c + ASCII_1));     // Display 1, 2, or 3
@@ -496,7 +498,7 @@ start:             // re-entry point, if button is re-pressed
   //---------------------------------------------THYRISTOR---------------------------------------------     
   else if (PartFound == PART_THYRISTOR) {
     lcd_eep_string(Thyristor);      // Message - "Thyristor"
-    Line2();        // Start second line
+    SetCursor(2, 0);
     lcd_eep_string(GAK);       // Message - "GAC="
     lcd_data(GetPinAlias(b + ASCII_1));     // Display 1, 2, or 3
     lcd_data(GetPinAlias(c + ASCII_1));     // Display 1, 2, or 3
@@ -508,7 +510,7 @@ start:             // re-entry point, if button is re-pressed
   //---------------------------------------------TRIAC------------------------------------------------- 
   else if (PartFound == PART_TRIAC) {
     lcd_eep_string(Triac);     // Message - "Triac"
-    Line2();       // Start second line
+    SetCursor(2, 0);
     lcd_eep_string(Gate);     // Message - "G="
     lcd_data(GetPinAlias(b + ASCII_1));     // Display 1, 2, or 3
     lcd_eep_string(A1);      // Message - ";A1="
@@ -525,7 +527,7 @@ start:             // re-entry point, if button is re-pressed
     lcd_data(GetPinAlias(ra + ASCII_1));     // Display 1, 2, or 3 Pin data
     lcd_data('-');
     lcd_data(GetPinAlias(rb + ASCII_1));     // Display 1, 2, or 3
-    Line2();       // Start second line
+    SetCursor(2, 0);
 
     if(rv[0] > HALF_ADC_RANGE)     // Examine, how far the Voltages across the test resistances deviate from 512 
       hfe[0] = (rv[0] - HALF_ADC_RANGE);
@@ -576,7 +578,7 @@ start:             // re-entry point, if button is re-pressed
     lcd_data(GetPinAlias(ca + ASCII_1));     // Display 1, 2, or 3 Pin - Data
     lcd_data('-');
     lcd_data(GetPinAlias(cb + ASCII_1));     // Display 1, 2, or 3
-    Line2();      // Start second line
+    SetCursor(2, 0);
     tmpval2 = 'n';      // n for nF
 
     if(cv > 99999) {     // Too big
@@ -597,11 +599,11 @@ start:             // re-entry point, if button is re-pressed
 
   if(NumOfDiodes == 0) {      // Nothing found. Tell user.
     lcd_eep_string(TestFailed1);
-    Line2();
+    SetCursor(2, 0);
     lcd_eep_string(TestFailed2);
   } else {        // Data found but bad result or no positive ident
     lcd_eep_string(BadResult1);
-    Line2();
+    SetCursor(2, 0);
     lcd_eep_string(BadResult2);
     lcd_data(NumOfDiodes + ASCII_0);
     lcd_data(LCD_CHAR_DIODE);
@@ -621,17 +623,18 @@ end:
     _delay_ms(1);      // 1mS 10,000 times = 10 seconds
   }
 
-  if(PowerMode==PWR_9V) {    // If in battery mode; try to turn off; otherwise wait for a reset
-    POWER_OFF();
-  }
+/*  if(PowerMode==PWR_9V) {    // If in battery mode; try to turn off; otherwise wait for a reset*/
+/*    POWER_OFF();*/
+/*  }*/
 
   wdt_disable();      // Watchdog out
   // Continuous loop, no timer
-  while(1) {
-    if(!(RESET_GET()))     // only one reaches, if the automatic disconnection was not inserted
-      goto start;
-  }
-
+/*  while(1) {*/
+/*    if(!(RESET_GET()))     // only one reaches, if the automatic disconnection was not inserted*/
+/*      goto start;*/
+/*  }*/
+/**/
+  goto start;
   return 0;
 }         // End of main()
 
