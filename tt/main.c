@@ -85,7 +85,9 @@ int main(void) {
    * TODO: fix this
    */
 /*  ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8*/
+
   ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
+  _delay_ms(1);
 
   unsigned int rhval = R_H_VAL;  // R_H
   unsigned int rlval = R_L_VAL;  // R_L
@@ -278,8 +280,7 @@ start:                                          // re-entry point, if button is 
     lhfe = hfe[1];
     lhfe *= (((unsigned long)rhval * 100) / (unsigned long)rlval); // 500000/750 = 666.666r
 
-
-    if(uBE[1]<11) 
+    if(uBE[1]<11)
       uBE[1] = 11;
 
     lhfe /= uBE[1];
@@ -305,7 +306,7 @@ start:                                          // re-entry point, if button is 
     }
 
     goto end;
-  } 
+  }
 
   //---------------------------------------------FET---------------------------------------------------     
   else if (PartFound == PART_FET) {    // JFET or MOSFET
@@ -331,7 +332,7 @@ start:                                          // re-entry point, if button is 
       ReadCapacity(b,e);      // Measurement
       hfe[0] = (unsigned int)cv;
 
-      if(hfe[0]>2) 
+      if(hfe[0]>2)
         hfe[0] -= 3;
 
       utoa(hfe[0], outval2, 10);
@@ -364,9 +365,7 @@ start:                                          // re-entry point, if button is 
     }
 
     goto end;
-
-
-  } 
+  }
 
   //---------------------------------------------THYRISTOR---------------------------------------------     
   else if (PartFound == PART_THYRISTOR) {
@@ -378,7 +377,7 @@ start:                                          // re-entry point, if button is 
     lcd_data(GetPinAlias(e + ASCII_1));     // Display 1, 2, or 3
     goto end;
 
-  } 
+  }
 
   //---------------------------------------------TRIAC------------------------------------------------- 
   else if (PartFound == PART_TRIAC) {
@@ -392,7 +391,7 @@ start:                                          // re-entry point, if button is 
     lcd_data(GetPinAlias(c + ASCII_1));     // Display 1, 2, or 3
     goto end;
 
-  } 
+  }
 
   //---------------------------------------------RESISTOR----------------------------------------------   
   else if (PartFound == PART_RESISTOR) {
@@ -427,9 +426,6 @@ start:                                          // re-entry point, if button is 
     ultoa(lhfe,outval,10);
 
     if(rv[1] == rhval) {     // 470k- Resisted?
-#ifdef _DEBUG_UART
-  uart_puts("Same resistance\n");
-#endif
       ra = strlen(outval);     // Necessarily, in order to indicate comma
 
       for(rb=0;rb<ra;rb++) {
@@ -448,7 +444,7 @@ start:                                          // re-entry point, if button is 
 
   }
 
-  //---------------------------------------------CAPACITOR---------------------------------------------     
+  //-----------------------------------------CAPACITOR---------------------------------------------
   else if(PartFound == PART_CAPACITOR) {   // Capacitor measurement
     lcd_eep_string(Capacitor);    // Message - "Capacitor: €€"
     lcd_data(GetPinAlias(ca + ASCII_1));     // Display 1, 2, or 3 Pin - Data
@@ -471,7 +467,7 @@ start:                                          // re-entry point, if button is 
     goto end;
   }
 
-  //---------------------------------------------NOT-FOUND-OR-DAMAGED--------------------------------------------------------- 
+  //---------------------NOT-FOUND-OR-DAMAGED---------------------------------------------------------
 
   if(NumOfDiodes == 0) {      // Nothing found. Tell user.
     lcd_eep_string(TestFailed1);
@@ -874,7 +870,7 @@ savenresult:
     if((PartFound == PART_DIODE) || (PartFound == PART_NONE) || (PartFound == PART_RESISTOR)) {
       if((tmpPartFound == PART_RESISTOR) && (ra == LowPin) && (rb == HighPin)) {
         /* The Device was tested already once with reverse polarity. Now compare both results with one another.
-           If they are quite similar, it concerns (in all probability) a resistance. 
+           If they are quite similar, it concerns (in all probability) a resistance.
            */
         if(!((((adcv[0] + 100) * 6) >= ((rv[0] + 100) * 5)) &&  \
               (((rv[0] + 100) * 6) >= ((adcv[0] + 100) * 5)) &&  \
