@@ -43,7 +43,6 @@ us... that said you dont have to tell us anything :P
 */
 
 #include <avr/io.h>
-#include "lcd-routines.h"
 #include <util/delay.h>
 #include <avr/sleep.h>
 #include <stdlib.h>
@@ -52,7 +51,9 @@ us... that said you dont have to tell us anything :P
 #include <avr/wdt.h>
 #include <math.h>
 
+#include "lcd-routines.h"
 #include "settings.h"
+#include "uart.h"
 
 // *########################################################################################
 
@@ -203,12 +204,16 @@ uint8_t GetPinAlias(uint8_t nPin)    // GetPinAlias allows the user to define hi
 #endif
 
 int main(void) {
+  uint8_t tmp;
 
   POWER_ON();           // Turn the regulator ON
   PWRMODE_SETUP();          // Setup PWRMODE jumper input
   lcd_init();           // init LCD
 
-  uint8_t tmp;
+  uart_init(UART_BAUD_SELECT(9600, F_CPU));
+
+  uart_puts("UART has been initialized");
+
   ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8
 
   unsigned int rhval = eeprom_read_word(&R_H_VAL);  // R_H

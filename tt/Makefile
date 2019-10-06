@@ -8,7 +8,7 @@
 PROJECT = TransistorTestNew
 UI_LANGUAGE = LANG_ENGLISH
 MCU = atmega8
-F_CPU = 8000000UL
+F_CPU = 16000000UL
 TARGET = TransistorTestNew.elf
 CC = avr-gcc
 
@@ -58,10 +58,10 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = main.o lcd-routines.o
+OBJECTS = uart.o main.o lcd-routines.o
 
 ## Objects explicitly added by the user
-LINKONLYOBJECTS = 
+LINKONLYOBJECTS =
 
 ## Build
 all: $(TARGET) TransistorTestNew.hex TransistorTestNew.eep TransistorTestNew.lss size
@@ -72,6 +72,9 @@ main.o: ./main.c
 
 lcd-routines.o: ./lcd-routines.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+uart.o: ./uart.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c $<
 
 ##Link
 $(TARGET): $(OBJECTS)
