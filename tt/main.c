@@ -87,8 +87,8 @@ int main(void) {
   ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
   _delay_ms(10);
 
-  unsigned int rhval = R_H_VAL;  // R_H
-  unsigned int rlval = R_L_VAL;  // R_L
+  const  unsigned int rhval = R_H_VAL;  // R_H
+  const  unsigned int rlval = R_L_VAL;  // R_L
 
   ctmode = CapTestMode;      // Compile time choice of test modes (0x22)
   cp1 = (ctmode & 12) >> 2;                     // Capacitor pin 1, DEFAULT 0
@@ -1078,6 +1078,8 @@ unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel 
 
   ADMUX = mux | (1 << REFS1);
 
+  _delay_us(100);
+
   for(uint8_t j = 0; j < 200; j++) {      // 20 measurements; for better accuracy
     ADCSRA |= (1 << ADSC);
     while (ADCSRA & (1 << ADSC)) { }
@@ -1085,7 +1087,7 @@ unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel 
   }
 
   adcx /= 200;
-  return adcx;
+  return (unsigned int)adcx;
 }
 
 
