@@ -14,67 +14,66 @@
 #include "uart.h"
 #endif
 
-uint8_t CapTestMode              EEMEM  = V_CAPTESTMODE;
-unsigned int F_VER               EEMEM  = _FIRMWARE_VERSION_;
-unsigned int F_REV               EEMEM  = _FIRMWARE_REVISION_;
-unsigned int H_REV               EEMEM  = _HARDWARE_REVISION_;
-unsigned int R_L_VAL             EEMEM  = SMALL_R_VALUE;
-unsigned int R_H_VAL             EEMEM  = LARGE_R_VALUE;
-unsigned int H_CAPACITY_FACTOR   EEMEM = SMALL_CAP_VALUE;
-unsigned int L_CAPACITY_FACTOR   EEMEM = LARGE_CAP_VALUE;
+const uint8_t CapTestMode               = V_CAPTESTMODE;
+const unsigned int F_VER                = _FIRMWARE_VERSION_;
+const unsigned int F_REV                = _FIRMWARE_REVISION_;
+const unsigned int H_REV                = _HARDWARE_REVISION_;
+const unsigned int R_L_VAL              = SMALL_R_VALUE;
+const unsigned int R_H_VAL              = LARGE_R_VALUE;
+const unsigned int H_CAPACITY_FACTOR    = SMALL_CAP_VALUE;
+const unsigned int L_CAPACITY_FACTOR    = LARGE_CAP_VALUE;
 
-unsigned char StartupMessage[]   EEMEM = "ACT v1.2   ";
-unsigned char BatMode[]          EEMEM = "[BAT]";
-unsigned char PwrMode[]          EEMEM = "[PWR]";
-unsigned char TestRunning[]      EEMEM = "Testing   ->";
-unsigned char TestCapV[]         EEMEM = "Measuring ->";
-unsigned char Bat[]              EEMEM = "Battery ";
-unsigned char BatWeak[]          EEMEM = "weak";
-unsigned char BatEmpty[]         EEMEM = "empty!";
-unsigned char TestFailed1[]      EEMEM = "Unknown, Damaged";
-unsigned char TestFailed2[]      EEMEM = "or Nothing found";
-unsigned char BadResult1[]       EEMEM = " Part's Unknown";
-unsigned char BadResult2[]       EEMEM = " or Damaged: ";
-unsigned char TestTimedOut[]     EEMEM = "Timeout!";
+const unsigned char BatMode[]           = "[BAT]";
+const unsigned char PwrMode[]           = "[PWR]";
+const unsigned char TestRunning[]       = "Testing   ->";
+const unsigned char TestCapV[]          = "Measuring ->";
+const unsigned char Bat[]               = "Battery ";
+const unsigned char BatWeak[]           = "weak";
+const unsigned char BatEmpty[]          = "empty!";
+const unsigned char TestFailed1[]       = "Unknown, Damaged";
+const unsigned char TestFailed2[]       = "or Nothing found";
+const unsigned char BadResult1[]        = " Part's Unknown";
+const unsigned char BadResult2[]        = " or Damaged: ";
+const unsigned char TestTimedOut[]      = "Timeout!";
 // Components
-unsigned char Diode[]            EEMEM = "Diode: ";
-unsigned char DualDiode[]        EEMEM = "Double diode ";
-unsigned char TwoDiodes[]        EEMEM = "2 diodes";
-unsigned char Antiparallel[]     EEMEM = "anti-parallel";
-unsigned char Resistor[]         EEMEM = "Resistor: ";
-unsigned char Capacitor[]        EEMEM = "Capacitor: ";
-unsigned char InSeries[]         EEMEM = "serial A=";
-unsigned char Triac[]            EEMEM = "Triac";
-unsigned char Thyristor[]        EEMEM = "Thyristor";
+const unsigned char Diode[]             = "Diode: ";
+const unsigned char DualDiode[]         = "Double diode ";
+const unsigned char TwoDiodes[]         = "2 diodes";
+const unsigned char Antiparallel[]      = "anti-parallel";
+const unsigned char Resistor[]          = "Resistor: ";
+const unsigned char Capacitor[]         = "Capacitor: ";
+const unsigned char InSeries[]          = "serial A=";
+const unsigned char Triac[]             = "Triac";
+const unsigned char Thyristor[]         = "Thyristor";
 // Codes and Values
-unsigned char K1[]               EEMEM = ";C1=";
-unsigned char K2[]               EEMEM = ";C2=";
-unsigned char GAK[]              EEMEM = "GAC=";
-unsigned char NextK[]            EEMEM = ";C=";
-unsigned char K[]                EEMEM = "C=";
-unsigned char mosfet[]           EEMEM = "-MOS";
-unsigned char emode[]            EEMEM = "-E";
-unsigned char dmode[]            EEMEM = "-D";
-unsigned char jfet[]             EEMEM = "-JFET";
-unsigned char A1[]               EEMEM = ";A1=";
-unsigned char A2[]               EEMEM = ";A2=";
-unsigned char GateCap[]          EEMEM = " C=";
-unsigned char hfestr[]           EEMEM = "hFE=";
-unsigned char NPN[]              EEMEM = "NPN";
-unsigned char PNP[]              EEMEM = "PNP";
-unsigned char bstr[]             EEMEM = " B=";
-unsigned char cstr[]             EEMEM = ";C=";
-unsigned char estr[]             EEMEM = ";E=";
-unsigned char gds[]              EEMEM = "GDS=";
-unsigned char Uf[]               EEMEM = "Uf=";
-unsigned char vt[]               EEMEM = "Vt=";
-unsigned char mV[]               EEMEM = "mV";
-unsigned char Anode[]            EEMEM = "A=";
-unsigned char Gate[]             EEMEM = "G=";
-unsigned char CA[]               EEMEM = "CA";
-unsigned char CC[]               EEMEM = "CC";
-// LCD Icons
-unsigned char DiodeIcon[]        EEMEM = {4,31,31,14,14,4,31,4,0}; // Diode icon
+const unsigned char K1[]                = ";C1=";
+const unsigned char K2[]                = ";C2=";
+const unsigned char GAK[]               = "GAC=";
+const unsigned char NextK[]             = ";C=";
+const unsigned char K[]                 = "C=";
+const unsigned char mosfet[]            = "-MOS";
+const unsigned char emode[]             = "-E";
+const unsigned char dmode[]             = "-D";
+const unsigned char jfet[]              = "-JFET";
+const unsigned char A1[]                = ";A1=";
+const unsigned char A2[]                = ";A2=";
+const unsigned char GateCap[]           = " C=";
+const unsigned char hfestr[]            = "hFE=";
+const unsigned char NPN[]               = "NPN";
+const unsigned char PNP[]               = "PNP";
+const unsigned char bstr[]              = " B=";
+const unsigned char cstr[]              = ";C=";
+const unsigned char estr[]              = ";E=";
+const unsigned char gds[]               = "GDS=";
+const unsigned char Uf[]                = "Uf=";
+const unsigned char vt[]                = "Vt=";
+const unsigned char mV[]                = "mV";
+const unsigned char Anode[]             = "A=";
+const unsigned char Gate[]              = "G=";
+const unsigned char CA[]                = "CA";
+const unsigned char CC[]                = "CC";
+const // LCD Icons
+const unsigned char DiodeIcon[]         = {4,31,31,14,14,4,31,4,0}; // Diode icon
 
 struct Diode {
   uint8_t Anode;
@@ -154,7 +153,7 @@ int main(void) {
 
 #ifdef _DEBUG_UART
   uart_init(UART_BAUD_SELECT(9600, F_CPU));
-  uart_puts("UART has been initialized");
+  uart_puts("UART has been initialized\n");
 #endif
 
   /*
@@ -172,10 +171,6 @@ int main(void) {
 
   wdt_disable();
 
-  LCDLoadCustomChar();                          // Custom indication Diode symbol into LCD load
-  lcd_eep_string(DiodeIcon);                    // Message - diode icon
-  SetCursor(1,0);
-
 start:                                          // re-entry point, if button is re-pressed
 
 #ifdef WDT_enabled
@@ -190,74 +185,37 @@ start:                                          // re-entry point, if button is 
   ca = 0;
   cb = 0;
 
-
 #ifdef _DEBUG_UART
   uart_puts("We're starting\n");
 #endif
+
   // Startup Message
   lcd_clear();
-  lcd_eep_string(StartupMessage);              // LCD: ACT v#.#    [XXX]
+  SetCursor(1,0);
 
-
-
-  // -> // Power selection and Battery Testing ////////////////////
-
-  if(PWRMODE_GET()) {        // Get the PWRMODE jumper logic
-    PowerMode = PWR_9V;        // Set powermode to PWR_9V
-    _delay_us(250);
-
-    ReadADC(5 | (1<<REFS1));      // Measure the 9V battery Supply ( - diode drop)
-    hfe[0] = ReadADC(5 | (1<<REFS1));    // if in battery mode.
-
-    lcd_eep_string(BatMode);      // Tell user device in BAT mode
-    SetCursor(2,0);
-
-    if (hfe[0] < BAT_WEAK) {      // Compare 9v reading with BAT_WEAK variable
-
-      if(hfe[0] < BAT_DEAD) {     // If the batter is considered dead then
-        lcd_eep_string(Bat);     
-        lcd_eep_string(BatEmpty);    // Tell the user battery is DEAD
-        _delay_ms(3000);      // Wait a bit.
-/*        while(1) {        // Forever loop*/
-/*          POWER_OFF();      // keep trying to kill the power forever.*/
-/*        }*/
-      }
-
-      lcd_clear();   
-      lcd_eep_string(Bat);      // Battery isnt dead; its just weak
-      lcd_eep_string(BatWeak);     // tell the user; but keep testing...
-      SetCursor(2, 0);
-    }
-  } else {
-    PowerMode = PWR_5V;        // Power mode is constent v5, skip battery check.
-    lcd_eep_string(PwrMode);      // Tell user we are running in PWR mode.
-    SetCursor(2, 0);
-  }
-
-  // -> // Begin testing sequince. ///////////////////////////////
+  // Begin testing sequince
 
   lcd_eep_string(TestRunning);      // Tell user the testing has begun...
 
-  UpdateProgress("00%");       // Progress at 00% and Testing
+  UpdateProgress("00%");            // Progress at 00% and Testing
 
-  CheckPins(TP1, TP2, TP3);       //   ||
-  UpdateProgress("16%");       //   \/
+  CheckPins(TP1, TP2, TP3);         //   ||
+  UpdateProgress("16%");            //   \/
 
-  CheckPins(TP1, TP3, TP2);       //  TESTING...
-  UpdateProgress("33%");       //
+  CheckPins(TP1, TP3, TP2);         //  TESTING...
+  UpdateProgress("33%");            //
 
-  CheckPins(TP2, TP1, TP3);       //   ||
-  UpdateProgress("50%");       //   \/
+  CheckPins(TP2, TP1, TP3);         //   ||
+  UpdateProgress("50%");            //   \/
 
-  CheckPins(TP2, TP3, TP1);       //  TESTING...
-  UpdateProgress("66%");       //
+  CheckPins(TP2, TP3, TP1);         //  TESTING...
+  UpdateProgress("66%");            //
 
-  CheckPins(TP3, TP2, TP1);       //   ||
-  UpdateProgress("83%");       //   \/
+  CheckPins(TP3, TP2, TP1);         //   ||
+  UpdateProgress("83%");            //   \/
 
-  CheckPins(TP3, TP1, TP2);       //    Almost there!
-  UpdateProgress("99%");       // Testing Completed or 99%
-
+  CheckPins(TP3, TP1, TP2);         //    Almost there!
+  UpdateProgress("99%");            // Testing Completed or 99%
 
   //---------------------------------------------CAPACITOR---------------------------------------
   // Separate measurement to the test on condenser
@@ -1297,5 +1255,3 @@ void lcd_show_format_cap(char outval[], uint8_t strlength, uint8_t CommaPos) {
     }
   }
 }
-/* eof */
-

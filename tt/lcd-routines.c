@@ -81,6 +81,7 @@ void lcd_clear(void) {
 void lcd_string(char *data) {
 #ifdef _DEBUG_UART
   uart_puts(data);
+  uart_puts("\n");
 #endif
 /*  while(*data) {*/
 /*    lcd_data(*data);*/
@@ -89,20 +90,5 @@ void lcd_string(char *data) {
 }
 
 void lcd_eep_string(const unsigned char *data) {
-  char c;
-
-  while(1) {
-    c = eeprom_read_byte(data);
-
-    if((c==0) || (c==128))
-      return;
-
-#ifdef _DEBUG_UART
-  uart_puts("\n");
-  uart_putc(c);
-  uart_puts("\n");
-#endif
-/*    lcd_data(c);*/
-    data++;
-  }
+  lcd_string(data);
 }
