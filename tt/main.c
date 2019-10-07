@@ -8,7 +8,6 @@
 #include <math.h>
 
 #include "lcd-routines.h"
-#include "settings.h"
 #include "tester.h"
 
 #ifdef _DEBUG_UART
@@ -74,6 +73,8 @@ uint8_t GetPinAlias(uint8_t nPin) {
 int main(void) {
   uint8_t tmp;
 
+   MCUCR = (1 << PUD);
+
   lcd_init();
 
 #ifdef _DEBUG_UART
@@ -81,16 +82,13 @@ int main(void) {
   uart_puts("UART has been initialized\n");
 #endif
 
-  /*
-   * TODO: fix this
-   */
 /*  ADCSRA = (1<<ADEN) | (1<<ADPS1) | (1<<ADPS0);  // Enable ADC, set Prescale to 8*/
 
-  ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
-  _delay_ms(1);
+  ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
+  _delay_ms(10);
 
-  unsigned int rhval = R_H_VAL;  // R_H
-  unsigned int rlval = R_L_VAL;  // R_L
+  const  unsigned int rhval = R_H_VAL;  // R_H
+  const  unsigned int rlval = R_L_VAL;  // R_L
 
   ctmode = CapTestMode;      // Compile time choice of test modes (0x22)
   cp1 = (ctmode & 12) >> 2;                     // Capacitor pin 1, DEFAULT 0
@@ -112,6 +110,9 @@ start:                                          // re-entry point, if button is 
   PartMode = 0;
   ca = 0;
   cb = 0;
+
+  /* Set all pins of ADC port as input */
+  ADC_DDR = 0;
 
 #ifdef _DEBUG_UART
   uart_puts("We're starting\n");
@@ -149,25 +150,12 @@ start:                                          // re-entry point, if button is 
     } else {        // DEFAULT ctmode == 0x02  to do all tests
       SetCursor(2, 0);
       lcd_eep_string(TestCapV);
-      UpdateProgress("00%");
-
       ReadCapacity(TP3, TP1);
-      UpdateProgress("16%");
-
       ReadCapacity(TP3, TP2);
-      UpdateProgress("33%");
-
       ReadCapacity(TP2, TP3);
-      UpdateProgress("50%");
-
       ReadCapacity(TP2, TP1);
-      UpdateProgress("66%");
-
       ReadCapacity(TP1, TP3);
-      UpdateProgress("83%");
-
       ReadCapacity(TP1, TP2);
-      UpdateProgress("99%");
     }
   }
 
@@ -261,7 +249,7 @@ start:                                          // re-entry point, if button is 
       e = tmp;
     }
 
-    if(PartMode == PART_MODE_NPN) 
+    if(PartMode == PART_MODE_NPN)
       lcd_eep_string(NPN);      // Message - "NPN"
     else 
       lcd_eep_string(PNP);      // Message - "PNP"
@@ -1086,18 +1074,20 @@ end:
 
 
 unsigned int ReadADC(uint8_t mux) {     // - ADC value of the indicated channel pick out and as unsigned int back against
-  unsigned int adcx = 0;
+  unsigned long long adcx = 0;
 
-  ADMUX = mux | (1 << REFS0);
+  ADMUX = mux | (1 << REFS1);
 
-  for(uint8_t j = 0; j < 20; j++) {      // 20 measurements; for better accuracy
+  _delay_us(100);
+
+  for(uint8_t j = 0; j < 200; j++) {      // 20 measurements; for better accuracy
     ADCSRA |= (1 << ADSC);
     while (ADCSRA & (1 << ADSC)) { }
     adcx += ADCW;
   }
 
-  adcx /= 20;
-  return adcx;
+  adcx /= 200;
+  return (unsigned int)adcx;
 }
 
 

@@ -1,8 +1,8 @@
 #include <avr/io.h>
-#include "lcd-routines.h"
-#include "settings.h"
 #include <util/delay.h>
 #include <avr/eeprom.h>
+
+#include "lcd-routines.h"
 
 #ifdef _DEBUG_UART
 #include "uart.h"
