@@ -2,7 +2,7 @@
 * File Name     : main.c
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-10-06 14:29]
-* Last Modified : [2019-10-06 14:51]
+* Last Modified : [2019-10-13 15:04]
 * Description   :  
 **********************************************************************************/
 
@@ -21,11 +21,11 @@ int main(void) {
   createShift(&icS, &DDRD, &PORTD, PORTD0, PORTD1, PORTD2);
 
   /* Type of driver must be specified explicitly */
-  icS.type = IC_TYPE_HC595;
+  icS.type = IC_TYPE_HC164;
 
   /* Lets create it */
-  createShiftLCD(&lcd, &icS, 1, 3, 4, 5, 6, 7, 16, 2, 0);
-/*  createShiftLCD(&lcd, &icS, 4, 5, 0, 1, 2, 3, 16, 2, 0);*/
+/*  createShiftLCD(&lcd, &icS, 1, 3, 4, 5, 6, 7, 16, 2, 0);*/
+  createShiftLCD(&lcd, &icS, 4, 5, 0, 1, 2, 3, 8, 2, 0);
 
   /* Ta-da ! */
   shiftLCDPuts(&lcd, "hello");
