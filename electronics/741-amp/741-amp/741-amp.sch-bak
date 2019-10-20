@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:741-amp-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -19,7 +20,7 @@ U 1 1 5DAB7F1A
 P 1600 3850
 F 0 "J1" H 1632 4175 50  0000 C CNN
 F 1 "AudioJack2" H 1632 4084 50  0000 C CNN
-F 2 "Connector_Audio:Jack_3.5mm_CUI_SJ1-3535NG_Horizontal_CircularHoles" H 1600 3850 50  0001 C CNN
+F 2 "usb_micro:js-211" H 1600 3850 50  0001 C CNN
 F 3 "~" H 1600 3850 50  0001 C CNN
 	1    1600 3850
 	1    0    0    -1  
@@ -30,7 +31,7 @@ U 1 1 5DAB8580
 P 3650 3750
 F 0 "U1" H 3800 4100 50  0000 L CNN
 F 1 "LM741" H 3750 4000 50  0000 L CNN
-F 2 "" H 3700 3800 50  0001 C CNN
+F 2 "Package_SO:SO-8_3.9x4.9mm_P1.27mm" H 3700 3800 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm741.pdf" H 3800 3900 50  0001 C CNN
 	1    3650 3750
 	1    0    0    -1  
@@ -41,7 +42,7 @@ U 1 1 5DAB8D4D
 P 3800 4400
 F 0 "R2" V 3593 4400 50  0000 C CNN
 F 1 "10k" V 3684 4400 50  0000 C CNN
-F 2 "" V 3730 4400 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 3730 4400 50  0001 C CNN
 F 3 "~" H 3800 4400 50  0001 C CNN
 	1    3800 4400
 	0    1    1    0   
@@ -52,7 +53,7 @@ U 1 1 5DABBAD7
 P 2850 3850
 F 0 "R1" V 2643 3850 50  0000 C CNN
 F 1 "1.8k" V 2734 3850 50  0000 C CNN
-F 2 "" V 2780 3850 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 2780 3850 50  0001 C CNN
 F 3 "~" H 2850 3850 50  0001 C CNN
 	1    2850 3850
 	0    1    1    0   
@@ -172,7 +173,7 @@ U 1 1 5DAC9C97
 P 6700 3700
 F 0 "U2" H 7044 3746 50  0000 L CNN
 F 1 "LM386" H 7044 3655 50  0000 L CNN
-F 2 "" H 6800 3800 50  0001 C CNN
+F 2 "Package_SO:SO-8_3.9x4.9mm_P1.27mm" H 6800 3800 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm386.pdf" H 6900 3900 50  0001 C CNN
 	1    6700 3700
 	1    0    0    -1  
@@ -183,7 +184,7 @@ U 1 1 5DACBCF7
 P 5500 3650
 F 0 "RV1" V 5385 3650 50  0000 C CNN
 F 1 "5k" V 5294 3650 50  0000 C CNN
-F 2 "" H 5500 3650 50  0001 C CNN
+F 2 "Potentiometer_THT:Potentiometer_Piher_T-16H_Single_Horizontal" H 5500 3650 50  0001 C CNN
 F 3 "~" H 5500 3650 50  0001 C CNN
 	1    5500 3650
 	0    -1   -1   0   
@@ -303,7 +304,7 @@ U 1 1 5DADC66E
 P 7450 4500
 F 0 "RV2" V 7335 4500 50  0000 C CNN
 F 1 "100k" V 7244 4500 50  0000 C CNN
-F 2 "" H 7450 4500 50  0001 C CNN
+F 2 "Potentiometer_THT:Potentiometer_Piher_T-16H_Single_Horizontal" H 7450 4500 50  0001 C CNN
 F 3 "~" H 7450 4500 50  0001 C CNN
 	1    7450 4500
 	0    -1   -1   0   
@@ -332,27 +333,25 @@ Wire Wire Line
 Wire Wire Line
 	7750 4500 7600 4500
 $Comp
-L Connector:Conn_01x02_Male J2
+L Connector:Conn_01x03_Male J2
 U 1 1 5DAE0F96
-P 7950 4350
-F 0 "J2" H 7922 4232 50  0000 R CNN
-F 1 "Gain Jmpr" H 7922 4323 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7950 4350 50  0001 C CNN
-F 3 "~" H 7950 4350 50  0001 C CNN
-	1    7950 4350
+P 8100 4350
+F 0 "J2" H 8072 4232 50  0000 R CNN
+F 1 "Gain Jmpr" H 8072 4323 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 8100 4350 50  0001 C CNN
+F 3 "~" H 8100 4350 50  0001 C CNN
+	1    8100 4350
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	7750 4150 7750 4250
-Wire Wire Line
-	7750 4350 7750 4500
 $Comp
 L Device:CP C8
 U 1 1 5DAE773A
 P 7850 3700
 F 0 "C8" V 8105 3700 50  0000 C CNN
 F 1 "470uF" V 8014 3700 50  0000 C CNN
-F 2 "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm" H 7888 3550 50  0001 C CNN
+F 2 "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" H 7888 3550 50  0001 C CNN
 F 3 "~" H 7850 3700 50  0001 C CNN
 	1    7850 3700
 	0    -1   -1   0   
@@ -365,7 +364,7 @@ U 1 1 5DAE8A56
 P 7650 3250
 F 0 "C7" H 7765 3296 50  0000 L CNN
 F 1 "47nF" H 7765 3205 50  0000 L CNN
-F 2 "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm" H 7688 3100 50  0001 C CNN
+F 2 "Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm" H 7688 3100 50  0001 C CNN
 F 3 "~" H 7650 3250 50  0001 C CNN
 	1    7650 3250
 	1    0    0    -1  
@@ -455,7 +454,7 @@ U 1 1 5DB17660
 P 2450 2550
 F 0 "C9" H 2568 2596 50  0000 L CNN
 F 1 "470uF" H 2568 2505 50  0000 L CNN
-F 2 "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm" H 2488 2400 50  0001 C CNN
+F 2 "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" H 2488 2400 50  0001 C CNN
 F 3 "~" H 2450 2550 50  0001 C CNN
 	1    2450 2550
 	1    0    0    -1  
@@ -495,4 +494,11 @@ Wire Wire Line
 Wire Wire Line
 	2900 2900 2900 2700
 Connection ~ 2450 2900
+Wire Wire Line
+	7750 4250 7900 4250
+Wire Wire Line
+	7750 4500 7750 4350
+Wire Wire Line
+	7750 4350 7900 4350
+NoConn ~ 7900 4450
 $EndSCHEMATC
