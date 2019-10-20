@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:741-amp-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -332,20 +333,18 @@ Wire Wire Line
 Wire Wire Line
 	7750 4500 7600 4500
 $Comp
-L Connector:Conn_01x02_Male J2
+L Connector:Conn_01x03_Male J2
 U 1 1 5DAE0F96
-P 7950 4350
-F 0 "J2" H 7922 4232 50  0000 R CNN
-F 1 "Gain Jmpr" H 7922 4323 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7950 4350 50  0001 C CNN
-F 3 "~" H 7950 4350 50  0001 C CNN
-	1    7950 4350
+P 8100 4350
+F 0 "J2" H 8072 4232 50  0000 R CNN
+F 1 "Gain Jmpr" H 8072 4323 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 8100 4350 50  0001 C CNN
+F 3 "~" H 8100 4350 50  0001 C CNN
+	1    8100 4350
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	7750 4150 7750 4250
-Wire Wire Line
-	7750 4350 7750 4500
 $Comp
 L Device:CP C8
 U 1 1 5DAE773A
@@ -495,4 +494,11 @@ Wire Wire Line
 Wire Wire Line
 	2900 2900 2900 2700
 Connection ~ 2450 2900
+Wire Wire Line
+	7750 4250 7900 4250
+Wire Wire Line
+	7750 4500 7750 4350
+Wire Wire Line
+	7750 4350 7900 4350
+NoConn ~ 7900 4450
 $EndSCHEMATC
