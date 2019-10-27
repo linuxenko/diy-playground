@@ -1,0 +1,268 @@
+EESchema Schematic File Version 4
+LIBS:tda2822-stand-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_01x02_Male J1
+U 1 1 5DAF66CA
+P 2400 2750
+F 0 "J1" H 2508 2931 50  0000 C CNN
+F 1 "Input" H 2508 2840 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2400 2750 50  0001 C CNN
+F 3 "~" H 2400 2750 50  0001 C CNN
+	1    2400 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 3450 4700 3550
+$Comp
+L Device:C C3
+U 1 1 5DAF931C
+P 5150 3450
+F 0 "C3" H 5265 3496 50  0000 L CNN
+F 1 "100nf" H 5265 3405 50  0000 L CNN
+F 2 "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" H 5188 3300 50  0001 C CNN
+F 3 "~" H 5150 3450 50  0001 C CNN
+	1    5150 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C1
+U 1 1 5DAFB0AF
+P 3950 2800
+F 0 "C1" H 3700 2750 50  0000 L CNN
+F 1 "10uF" H 3650 2850 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm" H 3988 2650 50  0001 C CNN
+F 3 "~" H 3950 2800 50  0001 C CNN
+	1    3950 2800
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR05
+U 1 1 5DAFE65D
+P 5150 3800
+F 0 "#PWR05" H 5150 3550 50  0001 C CNN
+F 1 "GND" H 5155 3627 50  0000 C CNN
+F 2 "" H 5150 3800 50  0001 C CNN
+F 3 "" H 5150 3800 50  0001 C CNN
+	1    5150 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Male J2
+U 1 1 5DAFEDDA
+P 5950 2900
+F 0 "J2" H 5922 2782 50  0000 R CNN
+F 1 "Output" H 5922 2873 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5950 2900 50  0001 C CNN
+F 3 "~" H 5950 2900 50  0001 C CNN
+	1    5950 2900
+	-1   0    0    1   
+$EndComp
+$Comp
+L my_library:TDA2822a U1
+U 1 1 5DAF3193
+P 4500 2900
+F 0 "U1" H 4250 3850 50  0000 C CNN
+F 1 "TDA2822a" H 4300 3700 50  0000 C CNN
+F 2 "Package_SO:SO-8_3.9x4.9mm_P1.27mm" H 4600 3250 50  0001 C CNN
+F 3 "" H 4600 3250 50  0001 C CNN
+	1    4500 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C4
+U 1 1 5DB501C6
+P 4200 3550
+F 0 "C4" V 3950 3500 50  0000 L CNN
+F 1 "10nf" V 4050 3500 50  0000 L CNN
+F 2 "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" H 4238 3400 50  0001 C CNN
+F 3 "~" H 4200 3550 50  0001 C CNN
+	1    4200 3550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3950 2650 4250 2650
+Wire Wire Line
+	3950 2950 3950 3200
+Wire Wire Line
+	3950 3200 4250 3200
+$Comp
+L Device:CP C2
+U 1 1 5DB4915A
+P 2950 2750
+F 0 "C2" V 2700 2700 50  0000 L CNN
+F 1 "4.7uF" V 2800 2700 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm" H 2988 2600 50  0001 C CNN
+F 3 "~" H 2950 2750 50  0001 C CNN
+	1    2950 2750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_POT RV1
+U 1 1 5DB63C19
+P 3450 2750
+F 0 "RV1" H 3380 2704 50  0000 R CNN
+F 1 "R_POT" H 3380 2795 50  0000 R CNN
+F 2 "" H 3450 2750 50  0001 C CNN
+F 3 "~" H 3450 2750 50  0001 C CNN
+	1    3450 2750
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4250 2450 3450 2450
+Wire Wire Line
+	3450 2450 3450 2600
+Wire Wire Line
+	4250 3000 3450 3000
+Wire Wire Line
+	3450 3000 3450 2900
+Wire Wire Line
+	3100 2750 3300 2750
+Wire Wire Line
+	3950 3200 3950 3550
+Wire Wire Line
+	3950 3550 4050 3550
+Connection ~ 3950 3200
+Wire Wire Line
+	4350 3550 4700 3550
+Connection ~ 4700 3550
+Wire Wire Line
+	2600 2750 2800 2750
+Wire Wire Line
+	2600 2850 2750 2850
+$Comp
+L Device:C C5
+U 1 1 5DB7915F
+P 5600 3700
+F 0 "C5" H 5715 3746 50  0000 L CNN
+F 1 "100nf" H 5715 3655 50  0000 L CNN
+F 2 "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" H 5638 3550 50  0001 C CNN
+F 3 "~" H 5600 3700 50  0001 C CNN
+	1    5600 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5DB79A59
+P 5150 2800
+F 0 "R1" H 5220 2846 50  0000 L CNN
+F 1 "4.7" H 5220 2755 50  0000 L CNN
+F 2 "" V 5080 2800 50  0001 C CNN
+F 3 "~" H 5150 2800 50  0001 C CNN
+	1    5150 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5DB81429
+P 5600 3300
+F 0 "R2" H 5670 3346 50  0000 L CNN
+F 1 "4.7" H 5670 3255 50  0000 L CNN
+F 2 "" V 5530 3300 50  0001 C CNN
+F 3 "~" H 5600 3300 50  0001 C CNN
+	1    5600 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4850 2550 5150 2550
+Wire Wire Line
+	5750 2550 5750 2800
+Wire Wire Line
+	5150 2650 5150 2550
+Connection ~ 5150 2550
+Wire Wire Line
+	5150 2550 5750 2550
+Wire Wire Line
+	5150 2950 5150 3300
+Wire Wire Line
+	5150 3600 5150 3700
+Wire Wire Line
+	4850 3100 5600 3100
+Wire Wire Line
+	5750 3100 5750 2900
+Wire Wire Line
+	5600 3100 5600 3150
+Connection ~ 5600 3100
+Wire Wire Line
+	5600 3100 5750 3100
+Wire Wire Line
+	5600 3450 5600 3550
+Wire Wire Line
+	5600 3850 5350 3850
+Wire Wire Line
+	5350 3850 5350 3700
+Wire Wire Line
+	5350 3700 5150 3700
+Connection ~ 5150 3700
+Wire Wire Line
+	5150 3700 5150 3800
+$Comp
+L Connector:Conn_01x02_Male J3
+U 1 1 5DB8A060
+P 4200 1600
+F 0 "J3" H 4308 1781 50  0000 C CNN
+F 1 "PWR" H 4308 1690 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 4200 1600 50  0001 C CNN
+F 3 "~" H 4200 1600 50  0001 C CNN
+	1    4200 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 1600 4700 1600
+Wire Wire Line
+	4700 1600 4700 2200
+$Comp
+L power:GND #PWR02
+U 1 1 5DB8C245
+P 4550 1850
+F 0 "#PWR02" H 4550 1600 50  0001 C CNN
+F 1 "GND" H 4555 1677 50  0000 C CNN
+F 2 "" H 4550 1850 50  0001 C CNN
+F 3 "" H 4550 1850 50  0001 C CNN
+	1    4550 1850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 1700 4550 1700
+Wire Wire Line
+	4550 1700 4550 1850
+Wire Wire Line
+	2750 2850 2750 3800
+Wire Wire Line
+	4700 3550 4700 3800
+$Comp
+L power:GND #PWR04
+U 1 1 5DAF3A41
+P 4700 3800
+F 0 "#PWR04" H 4700 3550 50  0001 C CNN
+F 1 "GND" H 4705 3627 50  0000 C CNN
+F 2 "" H 4700 3800 50  0001 C CNN
+F 3 "" H 4700 3800 50  0001 C CNN
+	1    4700 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR01
+U 1 1 5DB73DA4
+P 2750 3800
+F 0 "#PWR01" H 2750 3550 50  0001 C CNN
+F 1 "GND" H 2755 3627 50  0000 C CNN
+F 2 "" H 2750 3800 50  0001 C CNN
+F 3 "" H 2750 3800 50  0001 C CNN
+	1    2750 3800
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
