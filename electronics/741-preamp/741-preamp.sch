@@ -119,7 +119,7 @@ U 1 1 5DCE09FC
 P 1700 1050
 F 0 "J1" H 1800 1300 50  0000 C CNN
 F 1 "PWR" H 1800 1200 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 1700 1050 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 1700 1050 50  0001 C CNN
 F 3 "~" H 1700 1050 50  0001 C CNN
 	1    1700 1050
 	1    0    0    -1  
@@ -130,7 +130,7 @@ U 1 1 5DCE1257
 P 1700 1800
 F 0 "J2" H 1800 2050 50  0000 C CNN
 F 1 "Audio In" H 1800 1950 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 1700 1800 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 1700 1800 50  0001 C CNN
 F 3 "~" H 1700 1800 50  0001 C CNN
 	1    1700 1800
 	1    0    0    -1  
@@ -141,7 +141,7 @@ U 1 1 5DCE1ACF
 P 6350 1900
 F 0 "J3" H 6322 1782 50  0000 R CNN
 F 1 "OUT" H 6322 1873 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6350 1900 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 6350 1900 50  0001 C CNN
 F 3 "~" H 6350 1900 50  0001 C CNN
 	1    6350 1900
 	-1   0    0    1   
