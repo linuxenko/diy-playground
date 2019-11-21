@@ -247,7 +247,7 @@ U 1 1 5DD53F7F
 P 5100 1950
 F 0 "U1" H 5100 2317 50  0000 C CNN
 F 1 "LM358" H 5100 2226 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 5100 1950 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 5100 1950 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 5100 1950 50  0001 C CNN
 	1    5100 1950
 	1    0    0    -1  
@@ -258,7 +258,7 @@ U 2 1 5DD559D7
 P 5100 2650
 F 0 "U1" H 5100 3017 50  0000 C CNN
 F 1 "LM358" H 5100 2926 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 5100 2650 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 5100 2650 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 5100 2650 50  0001 C CNN
 	2    5100 2650
 	1    0    0    -1  
@@ -269,7 +269,7 @@ U 3 1 5DD56FAD
 P 5850 1250
 F 0 "U1" H 5808 1296 50  0000 L CNN
 F 1 "LM358" H 5808 1205 50  0000 L CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 5850 1250 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 5850 1250 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 5850 1250 50  0001 C CNN
 	3    5850 1250
 	1    0    0    -1  
@@ -311,7 +311,7 @@ U 1 1 5DDA92C1
 P 5100 3400
 F 0 "U2" H 5100 3767 50  0000 C CNN
 F 1 "LM358" H 5100 3676 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 5100 3400 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 5100 3400 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 5100 3400 50  0001 C CNN
 	1    5100 3400
 	1    0    0    -1  
@@ -322,7 +322,7 @@ U 2 1 5DDAC69E
 P 5100 4050
 F 0 "U2" H 5100 4417 50  0000 C CNN
 F 1 "LM358" H 5100 4326 50  0000 C CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 5100 4050 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 5100 4050 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 5100 4050 50  0001 C CNN
 	2    5100 4050
 	1    0    0    -1  
@@ -333,7 +333,7 @@ U 3 1 5DDAFFDF
 P 6250 1250
 F 0 "U2" H 6208 1296 50  0000 L CNN
 F 1 "LM358" H 6208 1205 50  0000 L CNN
-F 2 "Package_DIP:DIP-8_W7.62mm_LongPads" H 6250 1250 50  0001 C CNN
+F 2 "Package_SO:SOP-8_3.9x4.9mm_P1.27mm" H 6250 1250 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm2904-n.pdf" H 6250 1250 50  0001 C CNN
 	3    6250 1250
 	1    0    0    -1  
@@ -652,4 +652,6 @@ Wire Wire Line
 Wire Wire Line
 	3700 2150 3700 2900
 Connection ~ 3700 2900
+Text Notes 2850 1300 0    50   ~ 0
+wrong or
 $EndSCHEMATC
