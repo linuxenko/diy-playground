@@ -16,9 +16,9 @@ FUSE_H  = 0xc9
 AVRDUDE = avrdude -B64 -c usbasp -p $(DEVICE) # edit this line for your programmer
 
 CFLAGS  = -I. -DDEBUG_LEVEL=0
-OBJECTS = main.o uart.o
+OBJECTS = main.o uart.o adc.o
 
-COMPILE = avr-gcc -std=gnu99 -Wall -Os -flto -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE) -DUART_RX3_BUFFER_SIZE=128 -DUART_TX3_BUFFER_SIZE=128
+COMPILE = avr-gcc -std=gnu99 -Wall -g -flto -Os  -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE) -DUART_RX3_BUFFER_SIZE=128 -DUART_TX3_BUFFER_SIZE=128
 
 ##############################################################################
 # Fuse values for particular devices
