@@ -2,7 +2,7 @@
  * File Name     : main.c
  * Created By    : Svetlana Linuxenko
  * Creation Date : [2019-09-20 23:23]
- * Last Modified : [2019-11-25 22:23]
+ * Last Modified : [2019-11-26 02:03]
  * Description   :  
  **********************************************************************************/
 
@@ -15,7 +15,7 @@
 #include "uart.h"
 
 #define _BAUD_RATE   9600
-#define _REFV 250
+#define _REFV 252
 
 int main(void) {
   char out[64];
