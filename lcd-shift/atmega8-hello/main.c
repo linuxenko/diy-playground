@@ -2,7 +2,7 @@
 * File Name     : main.c
 * Created By    : Svetlana Linuxenko
 * Creation Date : [2019-10-06 14:29]
-* Last Modified : [2019-10-13 15:04]
+* Last Modified : [2020-02-05 23:22]
 * Description   :  
 **********************************************************************************/
 
@@ -30,12 +30,12 @@ int main(void) {
   /* Ta-da ! */
   shiftLCDPuts(&lcd, "hello");
 
-  while(1) {
-
-    shiftLCDClear(&lcd);
-    shiftLCDPuts(&lcd, "hello");
-    _delay_ms(800);
-  }
+/*  while(1) {*/
+/**/
+/*    shiftLCDClear(&lcd);*/
+/*    shiftLCDPuts(&lcd, "hello");*/
+/*    _delay_ms(1000);*/
+/*  }*/
 
   return 0;
 }
