@@ -15,7 +15,10 @@ AVRDUDE = avrdude -c usbasp -p $(DEVICE) # edit this line for your programmer
 CFLAGS  = -I. -DDEBUG_LEVEL=0
 OBJECTS = main.o
 
-COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
+#COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
+
+COMPILE = avr-gcc -std=gnu99 -Wall -g -flto -Os  -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE) -DUART_RX3_BUFFER_SIZE=128 -DUART_TX3_BUFFER_SIZE=128
+
 
 ##############################################################################
 # Fuse values for particular devices
@@ -118,7 +121,7 @@ fuse:
 
 # rule for uploading firmware:
 flash: main.hex
-	$(AVRDUDE) -U flash:w:main.hex:i
+	$(AVRDUDE) -U flash:w:main.hex:i -p m8 -B64
 
 # rule for deleting dependent files (those which can be built by Make):
 clean:
