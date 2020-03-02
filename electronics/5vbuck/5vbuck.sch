@@ -1,0 +1,232 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:D_Schottky D1
+U 1 1 5DA40C8D
+P 4200 3550
+F 0 "D1" V 4154 3629 50  0000 L CNN
+F 1 "D_Schottky" V 4245 3629 50  0000 L CNN
+F 2 "Diode_THT:D_DO-15_P15.24mm_Horizontal" H 4200 3550 50  0001 C CNN
+F 3 "~" H 4200 3550 50  0001 C CNN
+	1    4200 3550
+	0    1    1    0   
+$EndComp
+$Comp
+L pspice:INDUCTOR L1
+U 1 1 5DA412EC
+P 4700 3200
+F 0 "L1" H 4700 3415 50  0000 C CNN
+F 1 "INDUCTOR" H 4700 3324 50  0000 C CNN
+F 2 "Inductor_THT:L_Toroid_Horizontal_D7.8mm_P13.00mm_Diameter9-5mm_Amidon-T30" H 4700 3200 50  0001 C CNN
+F 3 "~" H 4700 3200 50  0001 C CNN
+	1    4700 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Switching:LM2596S-5 U1
+U 1 1 5E5D6466
+P 3400 3100
+F 0 "U1" H 3400 3467 50  0000 C CNN
+F 1 "LM2596S-5" H 3400 3376 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:TO-263-5_TabPin3" H 3450 2850 50  0001 L CIN
+F 3 "http://www.ti.com/lit/ds/symlink/lm2596.pdf" H 3400 3100 50  0001 C CNN
+	1    3400 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3900 3200 4200 3200
+Wire Wire Line
+	4200 3400 4200 3200
+Connection ~ 4200 3200
+Wire Wire Line
+	4200 3200 4450 3200
+Wire Wire Line
+	3400 3400 3400 3900
+Wire Wire Line
+	3400 3900 4200 3900
+Wire Wire Line
+	4200 3900 4200 3700
+Wire Wire Line
+	4950 3200 5200 3200
+Wire Wire Line
+	5200 3200 5200 3350
+Wire Wire Line
+	5200 3650 5200 3900
+Wire Wire Line
+	5200 3900 4200 3900
+Connection ~ 4200 3900
+$Comp
+L Device:C C3
+U 1 1 5E5DD91F
+P 5750 3550
+F 0 "C3" H 5865 3596 50  0000 L CNN
+F 1 "100nF" H 5865 3505 50  0000 L CNN
+F 2 "Capacitor_THT:C_Disc_D4.3mm_W1.9mm_P5.00mm" H 5788 3400 50  0001 C CNN
+F 3 "~" H 5750 3550 50  0001 C CNN
+	1    5750 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 3200 5750 3200
+Wire Wire Line
+	5750 3200 5750 3400
+Connection ~ 5200 3200
+Wire Wire Line
+	5750 3700 5750 3900
+Wire Wire Line
+	5750 3900 5200 3900
+Connection ~ 5200 3900
+$Comp
+L Device:CP C4
+U 1 1 5E5DF7A5
+P 6300 3500
+F 0 "C4" H 6418 3546 50  0000 L CNN
+F 1 "450uF" H 6418 3455 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm" H 6338 3350 50  0001 C CNN
+F 3 "~" H 6300 3500 50  0001 C CNN
+	1    6300 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C2
+U 1 1 5E5DFF1A
+P 5200 3500
+F 0 "C2" H 5318 3546 50  0000 L CNN
+F 1 "450uF" H 5318 3455 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm" H 5238 3350 50  0001 C CNN
+F 3 "~" H 5200 3500 50  0001 C CNN
+	1    5200 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 3200 6300 3200
+Wire Wire Line
+	6300 3200 6300 3350
+Connection ~ 5750 3200
+Wire Wire Line
+	6300 3650 6300 3900
+Wire Wire Line
+	6300 3900 5750 3900
+Connection ~ 5750 3900
+Wire Wire Line
+	3900 3000 4200 3000
+Wire Wire Line
+	4200 3000 4200 2850
+Wire Wire Line
+	4200 2850 6300 2850
+Wire Wire Line
+	6300 2850 6300 3200
+Connection ~ 6300 3200
+$Comp
+L Connector:Conn_01x02_Male J3
+U 1 1 5E5E3A6A
+P 7250 3550
+F 0 "J3" H 7222 3432 50  0000 R CNN
+F 1 "out" H 7222 3523 50  0000 R CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 7250 3550 50  0001 C CNN
+F 3 "~" H 7250 3550 50  0001 C CNN
+	1    7250 3550
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6300 3200 7050 3200
+Wire Wire Line
+	7050 3200 7050 3450
+Wire Wire Line
+	6300 3900 6750 3900
+Wire Wire Line
+	7050 3900 7050 3550
+Connection ~ 6300 3900
+$Comp
+L Connector:USB_A J2
+U 1 1 5E5EC988
+P 6750 2650
+F 0 "J2" H 6807 3117 50  0000 C CNN
+F 1 "USB_A" H 6807 3026 50  0000 C CNN
+F 2 "Connector_USB:USB_A_Stewart_SS-52100-001_Horizontal" H 6900 2600 50  0001 C CNN
+F 3 " ~" H 6900 2600 50  0001 C CNN
+	1    6750 2650
+	1    0    0    -1  
+$EndComp
+Connection ~ 7050 3200
+Connection ~ 6750 3900
+Wire Wire Line
+	6750 3900 7050 3900
+NoConn ~ 6650 3050
+$Comp
+L Device:CP C1
+U 1 1 5E605080
+P 2500 3400
+F 0 "C1" H 2618 3446 50  0000 L CNN
+F 1 "450uF" H 2618 3355 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm" H 2538 3250 50  0001 C CNN
+F 3 "~" H 2500 3400 50  0001 C CNN
+	1    2500 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 3000 2500 3000
+Wire Wire Line
+	2500 3000 2500 3250
+Wire Wire Line
+	2500 3550 2500 3900
+Wire Wire Line
+	2500 3900 2900 3900
+Connection ~ 3400 3900
+Wire Wire Line
+	2900 3200 2900 3900
+Connection ~ 2900 3900
+Wire Wire Line
+	2900 3900 3400 3900
+$Comp
+L Connector:Conn_01x02_Male J1
+U 1 1 5E60A7BE
+P 1700 3400
+F 0 "J1" H 1808 3581 50  0000 C CNN
+F 1 "in" H 1808 3490 50  0000 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 1700 3400 50  0001 C CNN
+F 3 "~" H 1700 3400 50  0001 C CNN
+	1    1700 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 3400 2250 3400
+Wire Wire Line
+	2250 3400 2250 3000
+Wire Wire Line
+	2250 3000 2500 3000
+Connection ~ 2500 3000
+Wire Wire Line
+	1900 3500 2250 3500
+Wire Wire Line
+	2250 3500 2250 3900
+Wire Wire Line
+	2250 3900 2500 3900
+Connection ~ 2500 3900
+Wire Wire Line
+	7250 2450 7250 3200
+Wire Wire Line
+	7050 3200 7250 3200
+Wire Wire Line
+	7000 2450 7050 2450
+Connection ~ 7050 2450
+Wire Wire Line
+	7050 2450 7250 2450
+Wire Wire Line
+	6750 3050 6750 3900
+NoConn ~ 7050 2650
+NoConn ~ 7050 2750
+$EndSCHEMATC
