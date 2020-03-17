@@ -129,35 +129,15 @@ F 3 "" H 3200 4500 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3200 3900 3200 4500
-$Comp
-L Device:R R3
-U 1 1 5E6A4CB9
-P 5400 3900
-F 0 "R3" V 5193 3900 50  0000 C CNN
-F 1 "220" V 5284 3900 50  0000 C CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 5330 3900 50  0001 C CNN
-F 3 "~" H 5400 3900 50  0001 C CNN
-	1    5400 3900
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	4850 3950 4850 4150
-Wire Wire Line
-	5250 3450 5400 3450
-Wire Wire Line
-	5400 3450 5400 3750
-Wire Wire Line
-	5400 4050 5400 4150
-Wire Wire Line
-	5400 4150 5300 4150
 Connection ~ 4850 4150
 Wire Wire Line
 	4850 4150 4850 4500
 Wire Wire Line
-	5300 4150 5300 3150
+	5300 4150 5300 3450
 Wire Wire Line
 	5300 3150 5400 3150
-Connection ~ 5300 4150
 Wire Wire Line
 	5300 4150 4850 4150
 Wire Wire Line
@@ -170,44 +150,6 @@ Wire Wire Line
 	5300 2450 5300 3150
 Connection ~ 5300 3150
 NoConn ~ 3600 3700
-Wire Wire Line
-	4450 2750 4150 2750
-Wire Wire Line
-	4150 2750 4150 3500
-Wire Wire Line
-	4150 3500 3600 3500
-Wire Wire Line
-	4450 2950 3750 2950
-Wire Wire Line
-	3750 2950 3750 2800
-Wire Wire Line
-	3750 2800 3600 2800
-Wire Wire Line
-	3600 3200 4300 3200
-Wire Wire Line
-	4300 3200 4300 3450
-Wire Wire Line
-	4300 3450 4450 3450
-Wire Wire Line
-	4450 3550 4200 3550
-Wire Wire Line
-	4200 3550 4200 3100
-Wire Wire Line
-	4200 3100 3600 3100
-Wire Wire Line
-	4450 3650 4000 3650
-Wire Wire Line
-	4000 3650 4000 3000
-Wire Wire Line
-	4000 3000 3600 3000
-Wire Wire Line
-	4450 3750 4100 3750
-Wire Wire Line
-	4100 3750 4100 2900
-Wire Wire Line
-	4100 2900 3600 2900
-NoConn ~ 3600 3300
-NoConn ~ 3600 3400
 $Comp
 L Connector:Conn_01x05_Male J1
 U 1 1 5E6ACB32
@@ -277,4 +219,47 @@ Wire Wire Line
 Connection ~ 1750 3400
 Wire Wire Line
 	1750 3400 1750 3600
+Wire Wire Line
+	5250 3450 5300 3450
+Connection ~ 5300 3450
+Wire Wire Line
+	5300 3450 5300 3150
+Wire Wire Line
+	3600 3500 4050 3500
+Wire Wire Line
+	4050 3500 4050 3750
+Wire Wire Line
+	4050 3750 4450 3750
+Wire Wire Line
+	4450 3650 4100 3650
+Wire Wire Line
+	4100 3650 4100 3400
+Wire Wire Line
+	4100 3400 3600 3400
+Wire Wire Line
+	3600 3300 4150 3300
+Wire Wire Line
+	4150 3300 4150 3550
+Wire Wire Line
+	4150 3550 4450 3550
+Wire Wire Line
+	4450 3450 4200 3450
+Wire Wire Line
+	4200 3450 4200 3200
+Wire Wire Line
+	4200 3200 3600 3200
+Wire Wire Line
+	4450 2950 4250 2950
+Wire Wire Line
+	4250 2950 4250 3100
+Wire Wire Line
+	4250 3100 3600 3100
+Wire Wire Line
+	4100 2900 4100 2750
+Wire Wire Line
+	4100 2750 4450 2750
+Wire Wire Line
+	4100 2900 3600 2900
+NoConn ~ 3600 3000
+NoConn ~ 3600 2800
 $EndSCHEMATC
