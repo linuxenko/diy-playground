@@ -55,13 +55,8 @@ NoConn ~ 14300 5400
 NoConn ~ 14400 5400
 NoConn ~ 14700 5800
 NoConn ~ 14700 5900
-NoConn ~ 14700 6200
 NoConn ~ 13700 5800
 NoConn ~ 13700 5900
-Wire Wire Line
-	13350 6100 13700 6100
-Wire Wire Line
-	13700 6000 13400 6000
 NoConn ~ 11750 1650
 NoConn ~ 11750 1550
 Connection ~ 11200 2450
@@ -888,7 +883,7 @@ F 3 "" H 7900 6150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7900 6000 7900 6150
-Text GLabel 8900 5700 2    50   Input ~ 0
+Text GLabel 8950 6000 2    50   Input ~ 0
 ChargeEnable
 Wire Wire Line
 	8250 6000 8250 6200
@@ -929,8 +924,6 @@ F 3 "http://www.irf.com/product-info/datasheets/data/irliz44n.pdf" H 7450 8850 5
 $EndComp
 Wire Wire Line
 	7650 8750 7700 8750
-Wire Wire Line
-	8100 8750 8350 8750
 $Comp
 L Device:R R16
 U 1 1 5EC4AD89
@@ -982,12 +975,10 @@ F 3 "" H 7500 9800 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7500 9500 7500 9800
-Text GLabel 8350 9150 2    50   Input ~ 0
+Text GLabel 8900 9450 2    50   Input ~ 0
 LoadEnable
 Wire Wire Line
 	7850 9500 7850 9700
-Wire Wire Line
-	7850 9700 8050 9700
 Text GLabel 6200 8500 2    50   Input ~ 0
 PWR
 Wire Wire Line
@@ -996,8 +987,6 @@ Wire Wire Line
 	6000 8650 6000 8500
 Wire Wire Line
 	6000 8500 6200 8500
-Text GLabel 8350 8750 2    50   Input ~ 0
-PWR
 Wire Notes Line
 	4800 8000 9600 8000
 Wire Notes Line
@@ -1085,7 +1074,7 @@ F 3 "" H 14100 5050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	14100 5400 14100 5050
+	14100 5400 14100 5300
 $Comp
 L Connector:Conn_01x06_Male J5
 U 1 1 5F0245E7
@@ -1145,7 +1134,7 @@ Wire Wire Line
 	12650 6600 13700 6600
 Wire Wire Line
 	13700 6700 12650 6700
-Text GLabel 15200 6400 2    50   Input ~ 0
+Text GLabel 15200 6600 2    50   Input ~ 0
 BatteryPowerSensor
 Wire Wire Line
 	14700 6400 15200 6400
@@ -1153,7 +1142,7 @@ Text GLabel 15200 6500 2    50   Input ~ 0
 BatteryVoltageSensor
 Wire Wire Line
 	14700 6500 15200 6500
-Text GLabel 15200 6600 2    50   Input ~ 0
+Text GLabel 15200 6400 2    50   Input ~ 0
 SolarPowerSensor
 Wire Wire Line
 	14700 6600 15200 6600
@@ -1174,31 +1163,15 @@ NoConn ~ 14700 6900
 NoConn ~ 14700 7000
 NoConn ~ 14700 7100
 Wire Wire Line
-	13700 6200 12400 6200
-Wire Wire Line
-	12400 6200 12400 6400
-Wire Wire Line
-	12400 6400 12050 6400
-Wire Wire Line
 	12050 6400 12050 6800
 Wire Wire Line
 	12050 6800 11400 6800
-NoConn ~ 12450 5550
-NoConn ~ 12450 5650
-Text GLabel 13000 6300 0    50   Input ~ 0
+Text GLabel 10950 5050 0    50   Input ~ 0
 ChargeEnable
 Wire Wire Line
 	13000 6300 13700 6300
-Text GLabel 13000 6400 0    50   Input ~ 0
+Text GLabel 10950 5150 0    50   Input ~ 0
 LoadEnable
-Wire Wire Line
-	13000 6400 13700 6400
-Wire Wire Line
-	11100 5700 11250 5700
-Wire Wire Line
-	11100 5900 11400 5900
-Wire Wire Line
-	11400 5900 11400 6800
 Wire Wire Line
 	11150 6100 11100 6100
 Wire Wire Line
@@ -1207,10 +1180,6 @@ Wire Wire Line
 	11250 6000 11100 6000
 Wire Wire Line
 	11250 6000 11250 6800
-Wire Wire Line
-	11100 5800 11350 5800
-NoConn ~ 11650 5550
-NoConn ~ 11650 5650
 Wire Wire Line
 	17950 1350 17950 1600
 Wire Wire Line
@@ -1280,63 +1249,239 @@ Wire Wire Line
 NoConn ~ 18350 2400
 NoConn ~ 18350 2500
 Wire Wire Line
-	11250 5350 11250 5700
-Wire Wire Line
-	11250 5350 11650 5350
-Wire Wire Line
-	11350 5450 11350 5800
-Wire Wire Line
-	11350 5450 11650 5450
-Wire Wire Line
-	13400 5350 12450 5350
-Wire Wire Line
-	13400 5350 13400 6000
-Wire Wire Line
-	12450 5450 13350 5450
-Wire Wire Line
-	13350 5450 13350 6100
-Wire Wire Line
 	11850 6250 12050 6250
 Wire Wire Line
 	12050 6250 12050 6150
-$Comp
-L Transistor_FET:BSS138 Q6
-U 1 1 5E8372AA
-P 8800 6100
-F 0 "Q6" V 8650 6300 50  0000 C CNN
-F 1 "BSS138" V 8750 6450 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 9000 6025 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/BS/BSS138.pdf" H 8800 6100 50  0001 L CNN
-	1    8800 6100
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	8250 6200 8600 6200
-Text GLabel 9250 6200 2    50   Input ~ 0
+Wire Wire Line
+	10950 5150 11250 5150
+$Comp
+L Transistor_BJT:BC307 Q6
+U 1 1 5E8025F8
+P 8700 6000
+F 0 "Q6" H 8550 5800 50  0000 L CNN
+F 1 "BC307" H 8400 5900 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92L_Wide" H 8900 5925 50  0001 L CIN
+F 3 "http://www.onsemi.com/pub_link/Collateral/BC307-D.PDF" H 8700 6000 50  0001 L CNN
+	1    8700 6000
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8900 6000 8950 6000
+Text GLabel 8850 5500 2    50   Input ~ 0
 PWR
 Wire Wire Line
-	8800 5900 8800 5700
+	8600 5800 8600 5650
 Wire Wire Line
-	8800 5700 8900 5700
-Wire Wire Line
-	9000 6200 9250 6200
+	8600 5500 8850 5500
 $Comp
-L Transistor_FET:BSS138 Q5
-U 1 1 5E8AD54E
-P 8250 9600
-F 0 "Q5" V 8100 9800 50  0000 C CNN
-F 1 "BSS138" V 8200 9950 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 8450 9525 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/BS/BSS138.pdf" H 8250 9600 50  0001 L CNN
-	1    8250 9600
+L Transistor_BJT:BC307 Q5
+U 1 1 5E851190
+P 8350 9450
+F 0 "Q5" H 8200 9250 50  0000 L CNN
+F 1 "BC307" H 8050 9350 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92L_Wide" H 8550 9375 50  0001 L CIN
+F 3 "http://www.onsemi.com/pub_link/Collateral/BC307-D.PDF" H 8350 9450 50  0001 L CNN
+	1    8350 9450
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8250 9700 8250 9650
+Wire Wire Line
+	7850 9700 8250 9700
+Wire Wire Line
+	8550 9450 8700 9450
+Text GLabel 8550 8850 2    50   Input ~ 0
+PWR
+Wire Wire Line
+	8250 9250 8250 9000
+$Comp
+L power:GND #PWR0101
+U 1 1 5E91491A
+P 8850 8850
+F 0 "#PWR0101" H 8850 8600 50  0001 C CNN
+F 1 "GND" H 8855 8677 50  0000 C CNN
+F 2 "" H 8850 8850 50  0001 C CNN
+F 3 "" H 8850 8850 50  0001 C CNN
+	1    8850 8850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 8750 8850 8850
+Wire Wire Line
+	8100 8750 8850 8750
+Wire Wire Line
+	12050 6400 13700 6400
+Wire Wire Line
+	13000 6300 13000 5350
+Wire Wire Line
+	12450 5350 13000 5350
+Wire Wire Line
+	13700 6200 13100 6200
+Wire Wire Line
+	13100 6200 13100 5450
+Wire Wire Line
+	13100 5450 12450 5450
+Wire Wire Line
+	13700 6100 13200 6100
+Wire Wire Line
+	13200 6100 13200 5550
+Wire Wire Line
+	13200 5550 12450 5550
+Wire Wire Line
+	13300 6000 13300 5650
+Wire Wire Line
+	13300 5650 12450 5650
+Wire Wire Line
+	13300 6000 13700 6000
+Wire Wire Line
+	11400 5700 11400 6800
+Wire Wire Line
+	11100 5700 11400 5700
+$Comp
+L Device:R R17
+U 1 1 5EB23F98
+P 8700 9250
+F 0 "R17" V 8493 9250 50  0000 C CNN
+F 1 "10k" V 8584 9250 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 8630 9250 50  0001 C CNN
+F 3 "~" H 8700 9250 50  0001 C CNN
+	1    8700 9250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8700 9400 8700 9450
+Connection ~ 8700 9450
+Wire Wire Line
+	8700 9450 8900 9450
+Wire Wire Line
+	8700 9000 8700 9100
+Wire Wire Line
+	8250 9000 8500 9000
+Wire Wire Line
+	8550 8850 8500 8850
+Wire Wire Line
+	8500 8850 8500 9000
+Connection ~ 8500 9000
+Wire Wire Line
+	8500 9000 8700 9000
+$Comp
+L Device:R R18
+U 1 1 5EB59E3A
+P 8900 5850
+F 0 "R18" V 8693 5850 50  0000 C CNN
+F 1 "10k" V 8784 5850 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 8830 5850 50  0001 C CNN
+F 3 "~" H 8900 5850 50  0001 C CNN
+	1    8900 5850
+	-1   0    0    1   
+$EndComp
+Connection ~ 8900 6000
+Wire Wire Line
+	8900 5700 8900 5650
+Wire Wire Line
+	8900 5650 8600 5650
+Connection ~ 8600 5650
+Wire Wire Line
+	8600 5650 8600 5500
+$Comp
+L Device:R R19
+U 1 1 5EBFA0F5
+P 15450 5600
+F 0 "R19" V 15243 5600 50  0000 C CNN
+F 1 "1.7k" V 15334 5600 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 15380 5600 50  0001 C CNN
+F 3 "~" H 15450 5600 50  0001 C CNN
+	1    15450 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Male J7
+U 1 1 5EC14B22
+P 15300 5000
+F 0 "J7" V 15362 5044 50  0000 L CNN
+F 1 "refJUMPER" V 15453 5044 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 15300 5000 50  0001 C CNN
+F 3 "~" H 15300 5000 50  0001 C CNN
+	1    15300 5000
 	0    1    1    0   
 $EndComp
-Text GLabel 8700 9700 2    50   Input ~ 0
-PWR
 Wire Wire Line
-	8450 9700 8700 9700
+	15200 5200 15200 5300
 Wire Wire Line
-	8250 9400 8250 9150
+	15200 5300 14100 5300
+Connection ~ 14100 5300
 Wire Wire Line
-	8250 9150 8350 9150
+	14100 5300 14100 5050
+Wire Wire Line
+	15300 5200 15300 5300
+Wire Wire Line
+	15300 5300 15450 5300
+Wire Wire Line
+	15450 5300 15450 5450
+Wire Wire Line
+	15450 5750 15450 5800
+Wire Wire Line
+	15350 5950 15350 5900
+Wire Wire Line
+	15350 5800 15450 5800
+Connection ~ 15450 5800
+Wire Wire Line
+	15450 5800 15450 5850
+Wire Wire Line
+	14700 6200 15200 6200
+Wire Wire Line
+	15200 6200 15200 5900
+Wire Wire Line
+	15200 5900 15350 5900
+Connection ~ 15350 5900
+Wire Wire Line
+	15350 5900 15350 5800
+$Comp
+L power:GND #PWR011
+U 1 1 5EC72F08
+P 15450 6100
+F 0 "#PWR011" H 15450 5850 50  0001 C CNN
+F 1 "GND" H 15455 5927 50  0000 C CNN
+F 2 "" H 15450 6100 50  0001 C CNN
+F 3 "" H 15450 6100 50  0001 C CNN
+	1    15450 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	15450 6050 15450 6100
+$Comp
+L Reference_Voltage:TL431DBZ U5
+U 1 1 5ECCD717
+P 15450 5950
+F 0 "U5" V 15496 5880 50  0000 R CNN
+F 1 "TL431DBZ" V 15405 5880 50  0000 R CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 15450 5800 50  0001 C CIN
+F 3 "http://www.ti.com/lit/ds/symlink/tl431.pdf" H 15450 5950 50  0001 C CIN
+	1    15450 5950
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	11350 5900 11100 5900
+Wire Wire Line
+	11250 5800 11100 5800
+Wire Wire Line
+	10950 5050 11350 5050
+Wire Wire Line
+	11650 5450 11250 5450
+Wire Wire Line
+	11250 5450 11250 5150
+Wire Wire Line
+	11650 5350 11350 5350
+Wire Wire Line
+	11350 5350 11350 5050
+Wire Wire Line
+	11350 5550 11650 5550
+Wire Wire Line
+	11350 5550 11350 5900
+Wire Wire Line
+	11250 5800 11250 5650
+Wire Wire Line
+	11250 5650 11650 5650
 $EndSCHEMATC
